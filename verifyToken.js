@@ -6,7 +6,7 @@ function verifyToken(req, res, next) {
     jwt.verify(token, jwtSecretKey, (err, decoded) => {
       if (err) {
         console.error('Token verification failed:', err); // Add this line
-        return res.redirect('/login');
+        return res.redirect('/patientLogin');
       }
       req.userId = decoded.userId;
       next();

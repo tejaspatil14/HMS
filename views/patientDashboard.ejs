@@ -2,6 +2,7 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,7 +15,7 @@
             var userInfo = document.getElementById('userInfo');
             var bookApp = document.getElementById('bookAppointment');
             var appointmentHistory = document.getElementById('appointmentHistory');
-    
+
             if (option === 'dashboard') {
                 userInfo.style.display = 'block';
                 bookApp.style.display = 'none';
@@ -34,8 +35,9 @@
             }
         }
     </script>
-    
+
 </head>
+
 <body>
     <div id="sidebar">
         <a href="#" onclick="toggleUserInfoVisibility('dashboard')">Dashboard</a>
@@ -47,61 +49,102 @@
     <div id="main-content">
         <h1>Welcome to the Dashboard</h1>
         <% if (success) { %>
-            <p class="success-message"><%= success %></p>
-        <% } else if (error) { %>
-            <p class="error-message"><%= error %></p>
-        <% } %>
-        <div id="userInfo">
-            <p><strong>Username:</strong> <%= user.username %></p>
-            <p><strong>Email:</strong> <%= user.email %></p>
-            <p><strong>Full Name:</strong> <%= user.fullName %></p>
-            <p><strong>Phone Number</strong> <%= user.phone %></p>
-            <p><strong>Date of Birth:</strong> <%= user.dob.toLocaleDateString('en-GB') %></p>
-            <p><strong>Gender:</strong> <%= user.gender %></p>
-        </div>
+            <p class="success-message">
+                <%= success %>
+            </p>
+            <% } else if (error) { %>
+                <p class="error-message">
+                    <%= error %>
+                </p>
+                <% } %>
+                    <div id="userInfo">
+                        <p><strong>Username:</strong>
+                            <%= user.username %>
+                        </p>
+                        <p><strong>Email:</strong>
+                            <%= user.email %>
+                        </p>
+                        <p><strong>Full Name:</strong>
+                            <%= user.fullName %>
+                        </p>
+                        <p><strong>Phone Number</strong>
+                            <%= user.phone %>
+                        </p>
+                        <p><strong>Date of Birth:</strong>
+                            <%= user.dob.toLocaleDateString('en-GB') %>
+                        </p>
+                        <p><strong>Gender:</strong>
+                            <%= user.gender %>
+                        </p>
+                    </div>
 
-        <div id="bookAppointment">
-            <h2>Book Appointment</h2>
-            <form action="/bookAppointment" method="POST">
-                <form action="/bookAppointment" method="POST">
-                    <h2>Appointment Form</h2>
-                  
-                    <div class="form-group">
-                      <label for="patientName">Patient Name:</label>
-                      <input type="text" id="patientName" name="patientName" value="<%= user.fullName %>" readonly>
+                    <div id="bookAppointment">
+                        <h2>Book Appointment</h2>
+                        <form action="/bookAppointment" method="POST">
+                            <form action="/bookAppointment" method="POST">
+                                <h2>Appointment Form</h2>
+
+                                <div class="form-group">
+                                    <label for="patientName">Patient Name:</label>
+                                    <input type="text" id="patientName" name="patientName" value="<%= user.fullName %>"
+                                        readonly>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="doctor">Select Doctor:</label>
+                                    <select id="doctor" name="doctor" required>
+                                        <option value="doctor1">Doctor 1</option>
+                                        <option value="doctor2">Doctor 2</option>
+                                        <option value="doctor3">Doctor 3</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="dateTime">Select Date and Time:</label>
+                                    <input type="datetime-local" id="dateTime" name="dateTime" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="reason">Reason for Appointment:</label>
+                                    <textarea id="reason" name="reason" rows="4" required></textarea>
+                                </div>
+
+                                <button type="submit">Submit Appointment</button>
+                            </form>
                     </div>
-                  
-                    <div class="form-group">
-                      <label for="doctor">Select Doctor:</label>
-                      <select id="doctor" name="doctor" required>
-                        <option value="doctor1">Doctor 1</option>
-                        <option value="doctor2">Doctor 2</option>
-                        <option value="doctor3">Doctor 3</option>
-                      </select>
+
+                    <div id="appointmentHistory">
+                        <h2>Appointment History</h2>
+                        <!-- appointmentHistory.ejs -->
+                        <% if (appointments && appointments.length > 0) { %>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Doctor</th>
+                                        <th>Date and Time</th>
+                                        <th>Reason</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% appointments.forEach(appointment => { %>
+                                        <tr>
+                                            <td><%= appointment.doctor %></td>
+                                            <td><%= appointment.dateTime.toLocaleString() %></td>
+                                            <td><%= appointment.reason %></td>
+                                        </tr>
+                                    <% }); %>
+                                </tbody>
+                            </table>
+                        <% } else { %>
+                            <p>No appointment history available.</p>
+                        <% } %>
                     </div>
-                  
-                    <div class="form-group">
-                      <label for="dateTime">Select Date and Time:</label>
-                      <input type="datetime-local" id="dateTime" name="dateTime" required>
+
+
+                    <div id="logout">
+                        <a href="/logout">Logout</a>
                     </div>
-                  
-                    <div class="form-group">
-                      <label for="reason">Reason for Appointment:</label>
-                      <textarea id="reason" name="reason" rows="4" required></textarea>
-                    </div>
-                  
-                    <button type="submit">Submit Appointment</button>
-                  </form>
-        </div>
-        
-        <div id="logout">
-            <a href="/logout">Logout</a>
-        </div>
-    </div>
-    <a href="/patientDashboard">Back to Dashboard</a>
-        <!-- <div id="logout">
-            <a href="/logout">Logout</a>
-        </div> -->
     </div>
 </body>
+
 </html>

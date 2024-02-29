@@ -63,10 +63,16 @@
     done(null, user.id);
   });
 
-  passport.deserializeUser(function (id, done) {
-    User.findById(id).exec()
+  passport.deserializeUser((_id, done) => {
+    User.findById(_id).exec()
       .then(user => {
-        done(null, user);
+        const userObject = {
+          _id: user._id,
+          username: user.username,
+          patientId: user.patientId,
+          // Add other user details as needed
+        };
+        done(null, userObject);
       })
       .catch(err => {
         done(err);
