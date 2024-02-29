@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register or Login</title>
+    <style>
+        /* Improved styling with responsiveness and clarity */
+        body {
+            font-family: sans-serif;
+            display: flex;
+            min-height: 100vh;
+            align-items: center;
+            justify-content: center;
+            background-color: #f2f2f2; /* Subtle background for better contrast */
+        }
+
+        .container {
+            background-color: #fff;
+            display: flex;
+            flex-direction: column; /* Stack forms vertically on desktop */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border-radius: 4px;
+            width: 800  px; /* Increase width for better form sizes */
+            margin: 10px auto; /* Center the container */
+        }
+
+        @media (min-width: 768px) {
+            /* Responsive layout for wider screens */
+            .container {
+                flex-direction: row; /* Arrange forms side-by-side */
+                margin: 0 20px; /* Add horizontal margin */
+            }
+
+            .form {
+                width: 50%; /* Set 50% width for each form */
+                padding: 20px;
+            }
+        }
+
+        .form {
+            display: flex;
+            flex-direction: column;
+            margin: 20px; /* Add vertical margin */
+        }
+
+        label {
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .error {
+            color: red;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="container">
+            <form class="form" action="/doctorRegister" method="POST">
+
+                <h2>Doctor Registration</h2>
+    
+                <label for="department">Department:</label>
+                <select id="department" name="department" required>
+                    <option value="" disabled selected>Select Department</option>
+                    <option value="cardiology">Cardiology</option>
+                    <option value="radiology">Radiology</option>
+                    <option value="orthopedics">Orthopedics</option>
+                    <!-- Add more departments as needed -->
+                </select>
+    
+                <label for="fullName">Full Name:</label>
+                <input type="text" id="fullName" name="fullName" required>
+    
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required>
+    
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+    
+                <label for="gender">Gender:</label>
+                <select id="gender" name="gender" required>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                </select>
+    
+                <label for="phone">Phone Number:</label>
+                <input type="tel" id="phone" name="phone" required>
+    
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+    
+                <button type="submit">Register</button>
+    
+                <div class="error"></div>
+            </form>
+    </div>
+</body>
+</html>
