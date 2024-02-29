@@ -147,4 +147,6 @@
 
   app.listen(port, function () {
     console.log("Server is running on Port: " + port);
+    console.log("Changes for git tested");
+
   });
