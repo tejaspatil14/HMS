@@ -119,3 +119,30 @@
     button:hover {
         background-color: #0056b3;
     }
+
+    #appointmentHistory table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        border-radius: 5px; /* Adjust the value for desired curve */
+        overflow: hidden; /* Ensures the border-radius is applied */
+      }
+      
+      #appointmentHistory th, #appointmentHistory td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+        border-radius: 20px;
+      }
+      
+      #appointmentHistory th {
+        background-color: #f2f2f2;
+      }
+      
+      #appointmentHistory tbody tr:nth-child(even) {
+        background-color: #f9f9f9;
+      }
+      
+      #appointmentHistory tbody tr:hover {
+        background-color: #ddd;
+      }

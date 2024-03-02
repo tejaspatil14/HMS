@@ -113,7 +113,7 @@ router.get('/patientDashboard', isAuthenticated, async (req, res) => {
     const { success, error } = req.query;
 
     // Fetch user with the necessary fields
-    const user = await User.findById(req.user._id).select('username email fullName phone dob gender');
+    const user = await User.findById(req.user._id).select('username patientId email fullName phone dob gender');
 
     if (!user) {
       return res.render('patientDashboard', { user: { appointments: [] }, success, error });

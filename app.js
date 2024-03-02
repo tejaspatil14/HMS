@@ -131,6 +131,8 @@
     });
   }, isAuthenticated);
 
+  
+
   app.get('/patientDashboard', (req, res) => {
     console.log("Redirecting to Dashboard")
     res.render('dashboard', { user: req.user });

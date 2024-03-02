@@ -99,6 +99,7 @@
   
 .navbar {
     display: flex;
+    position: sticky;
     align-items: center;
     justify-content: space-between;
     padding: 20px;
@@ -225,12 +226,12 @@ input[type=checkbox] {
   }
 .intro
   {
-    position: relative;
+    display: flex;
+    justify-content: space-between;
     width: 100%;
     min-height: 100vh;
     padding: 100px;
     display: flex;
-    justify-content: space-between;
     align-items: center;
     background: #fff;
     /* background-color: #e5ecfb; */

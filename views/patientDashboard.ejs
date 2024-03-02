@@ -44,6 +44,7 @@
         <a href="#" onclick="toggleUserInfoVisibility('bookAppointment')">Book Appointment</a>
         <a href="#" onclick="toggleUserInfoVisibility('appointmentHistory')">Appointment History</a>
         <a href="#" onclick="toggleUserInfoVisibility('prescriptions')">Prescriptions</a>
+        <a href="/logout" ">Logout</a>
     </div>
 
     <div id="main-content">
@@ -60,6 +61,9 @@
                     <div id="userInfo">
                         <p><strong>Username:</strong>
                             <%= user.username %>
+                        </p>
+                        <p><strong>Patient ID:</strong>
+                            <%= user.patientId %>
                         </p>
                         <p><strong>Email:</strong>
                             <%= user.email %>
@@ -123,6 +127,7 @@
                                         <th>Doctor</th>
                                         <th>Date and Time</th>
                                         <th>Reason</th>
+                                        <th>Status</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -131,6 +136,7 @@
                                             <td><%= appointment.doctor %></td>
                                             <td><%= appointment.dateTime.toLocaleString() %></td>
                                             <td><%= appointment.reason %></td>
+                                            <td><%= appointment.status %></td>
                                         </tr>
                                     <% }); %>
                                 </tbody>
@@ -141,9 +147,9 @@
                     </div>
 
 
-                    <div id="logout">
+                    <!-- <div id="logout">
                         <a href="/logout">Logout</a>
-                    </div>
+                    </div> -->
     </div>
 </body>
 
