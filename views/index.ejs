@@ -24,7 +24,8 @@
           <label for="checkbox_toggle" class="hamburger">&#9776;</label>
           <!-- NAVIGATION MENUS -->
           <div class="menu">
-            <li><a href="index.html">Home</a></li>
+            <li id="homeButton">Home</li>
+            <li id="homeButton"><a>Home</a></li>
             <li id="doctorButton"><a>Doctor?</a></li>
   
             <li class"services">
@@ -116,6 +117,10 @@
       // Redirect to doctor login page
       document.getElementById('doctorButton').addEventListener('click', function () {
           window.location.href = '/doctorLogin'; 
+      });
+
+      document.getElementById('homeButton').addEventListener('click', function () {
+          window.location.href = '/'; 
       });
   });
 </script>

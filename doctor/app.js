@@ -126,7 +126,7 @@ app.get('/doctorDashboard', (req, res) => {
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-const port = 4000;
+const port = 3000;
 
 app.listen(port, function () {
   console.log("Server is running on Port: " + port);

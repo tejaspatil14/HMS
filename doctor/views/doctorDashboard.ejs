@@ -2,10 +2,12 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
+    <!-- <link rel="stylesheet" href="dashboard.css"> -->
     <style>
         /* General styling */
         body {
@@ -59,7 +61,8 @@
         /* User information container */
         #userInfo {
             margin-bottom: 20px;
-            display: none; /* Hidden by default */
+            display: none;
+            /* Hidden by default */
         }
 
         #userInfo p {
@@ -90,7 +93,7 @@
             color: #fff;
         }
 
-        .profile h3{
+        .profile h3 {
             color: #4CAF50;
         }
     </style>
@@ -107,6 +110,7 @@
         }
     </script>
 </head>
+
 <body>
     <div id="sidebar">
         <a href="#" onclick="toggleUserInfoVisibility('dashboard')">Dashboard</a>
@@ -116,17 +120,59 @@
     </div>
 
     <div id="main-content" class="profile">
-        <h2 class = "dbt">Welcome to Doctor Dashboard, Dr. <%= user.fullName %>!</h2>
-            
+        <h2 class="dbt">Welcome to Doctor Dashboard, Dr. <%= user.fullName %>!</h2>
+
         <div>
-            <h3>Department: <%= user.department %></h3>
-            <p>Gender: <%= user.gender %></p>
-            <p>Phone: <%= user.phone %></p>
-            <p>Email: <%= user.email %></p>
+            <h3>Department: <%= user.department %>
+            </h3>
+            <p>Gender: <%= user.gender %>
+            </p>
+            <p>Phone: <%= user.phone %>
+            </p>
+            <p>Email: <%= user.email %>
+            </p>
         </div>
+
+        <!-- Appointments Section -->
+        <div id="appointments">
+            <h3>Appointment Requests</h3>
+
+            <% if (user.appointments && user.appointments.length> 0) { %>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Patient</th>
+                            <th>Date and Time</th>
+                            <th>Reason</th>
+                            <!-- You can add more columns if needed -->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% user.appointments.forEach(appointment=> { %>
+                            <tr>
+                                <td>
+                                    <%= appointment.patientName %>
+                                </td>
+                                <td>
+                                    <%= appointment.dateTime %>
+                                </td>
+                                <td>
+                                    <%= appointment.reason %>
+                                </td>
+                                <!-- Add more cells as needed -->
+                            </tr>
+                            <% }); %>
+                    </tbody>
+                </table>
+                <% } else { %>
+                    <p>No appointment requests at the moment.</p>
+                    <% } %>
+        </div>
+
         <div id="logout">
             <a href="/logout">Logout</a>
         </div>
     </div>
 </body>
+
 </html>
