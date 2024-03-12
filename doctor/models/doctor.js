@@ -10,6 +10,10 @@ const doctorSchema = new mongoose.Schema({
   gender: String,
   phone: String, 
   email: String,
+  appointments: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Appointment',
+}],
 });
 
 const Doctor = mongoose.model('Doctor', doctorSchema);

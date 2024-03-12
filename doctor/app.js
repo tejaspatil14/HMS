@@ -13,8 +13,9 @@ const bodyParser = require("body-parser");
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const User = require("./models/user");
-const route = require('./route'); // Import the route module
 const Doctor = require("./models/doctor");
+const Appointment = require("./models/appointment");
+const route = require('./route'); // Import the route module
 
 app.use(cookieParser());
 
@@ -119,14 +120,10 @@ app.use('/doctorDashboard', (req, res, next) => {
   });
 }, isAuthenticated);
 
-app.get('/doctorDashboard', (req, res) => {
-  console.log("Redirecting to Dashboard")
-  res.render('dashboard', { user: req.user });
-});
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-const port = 3000;
+const port = 4000;
 
 app.listen(port, function () {
   console.log("Server is running on Port: " + port);

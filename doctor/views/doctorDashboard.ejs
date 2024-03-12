@@ -119,60 +119,45 @@
         <a href="#" onclick="toggleUserInfoVisibility('prescriptions')">Prescriptions</a>
     </div>
 
-    <div id="main-content" class="profile">
-        <h2 class="dbt">Welcome to Doctor Dashboard, Dr. <%= user.fullName %>!</h2>
+    <h2>Welcome to Doctor Dashboard, Dr. <%= user.fullName %>!</h2>
 
-        <div>
-            <h3>Department: <%= user.department %>
-            </h3>
-            <p>Gender: <%= user.gender %>
-            </p>
-            <p>Phone: <%= user.phone %>
-            </p>
-            <p>Email: <%= user.email %>
-            </p>
-        </div>
-
-        <!-- Appointments Section -->
-        <div id="appointments">
-            <h3>Appointment Requests</h3>
-
-            <% if (user.appointments && user.appointments.length> 0) { %>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Patient</th>
-                            <th>Date and Time</th>
-                            <th>Reason</th>
-                            <!-- You can add more columns if needed -->
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <% user.appointments.forEach(appointment=> { %>
-                            <tr>
-                                <td>
-                                    <%= appointment.patientName %>
-                                </td>
-                                <td>
-                                    <%= appointment.dateTime %>
-                                </td>
-                                <td>
-                                    <%= appointment.reason %>
-                                </td>
-                                <!-- Add more cells as needed -->
-                            </tr>
-                            <% }); %>
-                    </tbody>
-                </table>
-                <% } else { %>
-                    <p>No appointment requests at the moment.</p>
-                    <% } %>
-        </div>
-
-        <div id="logout">
-            <a href="/logout">Logout</a>
-        </div>
+    <div>
+        <h3>Department: <%= user.department %></h3>
+        <p>Gender: <%= user.gender %></p>
+        <p>Phone: <%= user.phone %></p>
+        <p>Email: <%= user.email %></p>
     </div>
+
+    <h3>Appointments</h3>
+
+    <% if (appointments && appointments.length > 0) { %>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Patient Name</th>
+                    <th>Date and Time</th>
+                    <th>Reason</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% appointments.forEach(appointment => { %>
+                    <tr>
+                        <td><%= appointment.patientName %></td>
+                        <td><%= appointment.dateTime %></td>
+                        <td><%= appointment.reason %></td>
+                        <td><%= appointment.status %></td>
+                        <td>Hellp </td>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    <% } else { %>
+        <p>No appointments available.</p>
+    <% } %>
+
+    <a href="/logout">Logout</a>
 </body>
 
 </html>
+

@@ -3,11 +3,11 @@ const router = express.Router();
 const path = require('path');
 const User = require('./models/user');
 const Doctor = require('./models/doctor');
+const Appointment = require('./models/appointment');
 const verifyToken = require('./verifyToken');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 
-// console.log(require('fs').readdirSync(path.join(__dirname, '../middleware')));
 const isAuthenticated = require('./middleware/isAuthenticated'); // Adjust the path accordingly
 
 router.get('/', (req, res) => {
@@ -51,10 +51,24 @@ router.post('/doctorRegister', async (req, res) => {
   }
 });
 
-router.get('/doctorDashboard', isAuthenticated, (req, res) => {
-  res.render('doctorDashboard', { user: req.user });
-});
+router.get('/doctorDashboard', isAuthenticated, async (req, res) => {
+  try {
+    const doctorUsername = req.user.username;
+    const doctor = await Doctor.findOne({ username: doctorUsername }).exec();
 
+    if (!doctor) {
+      return res.status(404).send('Doctor not found');
+    }
+
+    const appointments = await Appointment.find({ doctor: doctorUsername }).exec();
+    console.log('Appointments:', appointments);
+
+    res.render('doctorDashboard', { user: doctor, appointments });
+  } catch (err) {
+    console.error('Error fetching doctor appointments:', err);
+    res.status(500).render('error');
+  }
+});
 
 router.get('/logout', (req, res) => {
   req.logout((err) => {
@@ -67,6 +81,4 @@ router.get('/logout', (req, res) => {
   });
 });
 
-
 module.exports = router;
-// module.exports.isAuthenticated = isAuthenticated;
