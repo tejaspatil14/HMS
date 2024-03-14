@@ -70,6 +70,48 @@ router.get('/doctorDashboard', isAuthenticated, async (req, res) => {
   }
 });
 
+// Import necessary modules and models
+
+// ... (other imports)
+
+// Route to handle updating appointment status
+router.post('/updateAppointmentStatus', isAuthenticated, async (req, res) => {
+  try {
+    const appointmentId = req.body.appointmentId;
+    const newStatus = req.body.newStatus;
+
+    // Ensure the appointmentId and newStatus are provided
+    if (!appointmentId || !newStatus) {
+      return res.status(400).send('Invalid request');
+    }
+
+    // Find the appointment by ID
+    const appointment = await Appointment.findById(appointmentId).exec();
+
+    // Check if the appointment exists
+    if (!appointment) {
+      return res.status(404).send('Appointment not found');
+    }
+
+    // Update the appointment status
+    appointment.status = newStatus;
+
+    // Save the updated appointment
+    await appointment.save();
+
+    // Redirect back to the doctor dashboard
+    res.redirect('/doctorDashboard');
+  } catch (err) {
+    console.error('Error updating appointment status:', err);
+    res.status(500).render('error');
+  }
+});
+
+// Other route handlers can be added here
+
+module.exports = router;
+
+
 router.get('/logout', (req, res) => {
   req.logout((err) => {
     if (err) {

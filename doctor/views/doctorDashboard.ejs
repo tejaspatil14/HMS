@@ -7,108 +7,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
-    <!-- <link rel="stylesheet" href="dashboard.css"> -->
-    <style>
-        /* General styling */
-        body {
-            font-family: sans-serif;
-            font-size: 16px;
-            background-color: #f5f5f5;
-            margin: 0;
-            display: flex;
-            min-height: 100vh;
-        }
+    <link rel="stylesheet" href="doctorDashboard.css">
 
-        /* Sidebar styling */
-        #sidebar {
-            width: 250px;
-            background-color: #333;
-            color: #fff;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-        }
-
-        #sidebar a {
-            color: #fff;
-            text-decoration: none;
-            margin-bottom: 15px;
-            padding: 10px;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-        }
-
-        #sidebar a:hover {
-            background-color: #555;
-        }
-
-        /* Main content container */
-        #main-content {
-            flex: 1;
-            background-color: #fff;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
-
-        /* Heading */
-        h1 {
-            font-size: 24px;
-            margin-bottom: 20px;
-        }
-
-        /* User information container */
-        #userInfo {
-            margin-bottom: 20px;
-            display: none;
-            /* Hidden by default */
-        }
-
-        #userInfo p {
-            margin-bottom: 10px;
-        }
-
-        #userInfo strong {
-            font-weight: bold;
-            margin-right: 10px;
-        }
-
-        /* Logout link */
-        #logout {
-            margin-top: 20px;
-        }
-
-        #logout a {
-            color: #007bff;
-            text-decoration: none;
-            padding: 10px 20px;
-            border: 1px solid #007bff;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-        }
-
-        #logout a:hover {
-            background-color: #007bff;
-            color: #fff;
-        }
-
-        .profile h3 {
-            color: #4CAF50;
-        }
-    </style>
-
-    <script>
+       <script>
         function toggleUserInfoVisibility(option) {
             var userInfo = document.getElementById('userInfo');
+            var bookApp = document.getElementById('bookAppointment');
+            var appointmentHistory = document.getElementById('appointmentHistory');
 
             if (option === 'dashboard') {
                 userInfo.style.display = 'block';
+                bookApp.style.display = 'none';
+                appointmentHistory.style.display = 'none';
+            } else if (option === 'bookAppointment') {
+                userInfo.style.display = 'none';
+                bookApp.style.display = 'block';
+                appointmentHistory.style.display = 'none';
+            } else if (option === 'appointmentHistory') {
+                userInfo.style.display = 'none';
+                bookApp.style.display = 'none';
+                appointmentHistory.style.display = 'block';
             } else {
                 userInfo.style.display = 'none';
+                bookApp.style.display = 'none';
+                appointmentHistory.style.display = 'none';
             }
         }
     </script>
+
+
 </head>
 
 <body>
@@ -117,20 +44,26 @@
         <a href="#" onclick="toggleUserInfoVisibility('bookAppointment')">Book Appointment</a>
         <a href="#" onclick="toggleUserInfoVisibility('appointmentHistory')">Appointment History</a>
         <a href="#" onclick="toggleUserInfoVisibility('prescriptions')">Prescriptions</a>
+        <a href="/logout" ">Logout</a>
     </div>
 
     <h2>Welcome to Doctor Dashboard, Dr. <%= user.fullName %>!</h2>
 
     <div>
-        <h3>Department: <%= user.department %></h3>
-        <p>Gender: <%= user.gender %></p>
-        <p>Phone: <%= user.phone %></p>
-        <p>Email: <%= user.email %></p>
+        <h3>Department: <%= user.department %>
+        </h3>
+        <p>Gender: <%= user.gender %>
+        </p>
+        <p>Phone: <%= user.phone %>
+        </p>
+        <p>Email: <%= user.email %>
+        </p>
     </div>
 
+    <div id="appointmentHistory" >
     <h3>Appointments</h3>
 
-    <% if (appointments && appointments.length > 0) { %>
+    <% if (appointments && appointments.length> 0) { %>
         <table border="1">
             <thead>
                 <tr>
@@ -138,26 +71,48 @@
                     <th>Date and Time</th>
                     <th>Reason</th>
                     <th>Status</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
-                <% appointments.forEach(appointment => { %>
+                <% appointments.forEach(appointment=> { %>
                     <tr>
-                        <td><%= appointment.patientName %></td>
-                        <td><%= appointment.dateTime %></td>
-                        <td><%= appointment.reason %></td>
-                        <td><%= appointment.status %></td>
-                        <td>Hellp </td>
+                        <td>
+                            <%= appointment.patientName %>
+                        </td>
+                        <td>
+                            <%= appointment.dateTime %>
+                        </td>
+                        <td>
+                            <%= appointment.reason %>
+                        </td>
+                        <td class="<%= appointment.status %>">
+                            <%= appointment.status %>
+                        </td>
+                        
+                        <td>
+                            <form action="/updateAppointmentStatus" method="POST">
+                                <input type="hidden" name="appointmentId" value="<%= appointment._id %>">
+                                <select name="newStatus">
+                                    <option value="confirmed">Confirmed</option>
+                                    <option value="cancelled">Cancelled</option>
+                                    <option value="completed">Completed</option>
+                                </select>
+                                <button type="submit">Update Status</button>
+                            </form>
+                        </td>
                     </tr>
-                <% }); %>
+                    <% }); %>
             </tbody>
         </table>
-    <% } else { %>
-        <p>No appointments available.</p>
-    <% } %>
+        <% } else { %>
+            <p>No appointments available.</p>
+            <% } %>
 
-    <a href="/logout">Logout</a>
+        </div>
+
+                <a href="/logout">Logout</a>
+
 </body>
 
 </html>
-
