@@ -61,7 +61,7 @@ router.get('/doctorDashboard', isAuthenticated, async (req, res) => {
     }
 
     const appointments = await Appointment.find({ doctor: doctorUsername }).exec();
-    console.log('Appointments:', appointments);
+    // console.log('Appointments:', appointments);
 
     res.render('doctorDashboard', { user: doctor, appointments });
   } catch (err) {

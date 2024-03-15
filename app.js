@@ -1,11 +1,10 @@
-const mongoose = require("mongoose");
 const express = require("express");
 const flash = require("express-flash");
 const session = require("express-session");
 const app = express();
 const cookieParser = require("cookie-parser");
 const jwt = require("jsonwebtoken");
-const jwtSecretKey = "your-secret-key";
+const jwtSecretKey = "123abc";
 const isAuthenticated = require("./middleware/isAuthenticated");
 const ejs = require("ejs");
 const path = require("path");
@@ -14,6 +13,7 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const User = require("./models/user");
 const route = require("./route"); // Import the route module
+const connectDB = require("./connection")
 
 app.use(cookieParser());
 
@@ -24,14 +24,7 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-var uri = "mongodb://127.0.0.1:27017/myDatabase";
-mongoose.connect(uri, { useUnifiedTopology: true, useNewUrlParser: true });
-const connection = mongoose.connection;
-
-connection.once("open", function () {
-  console.log("MongoDB database connection established successfully");
-});
-
+connectDB()
 // Passport Configuration
 passport.use(
   new LocalStrategy(function (username, password, done) {

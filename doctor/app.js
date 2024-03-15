@@ -1,11 +1,12 @@
 const mongoose = require("mongoose");
+const { MongoClient, ServerApiVersion } = require('mongodb');
 const express = require("express");
 const flash = require('express-flash');
 const session = require('express-session');
 const app = express();
 const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
-const jwtSecretKey = 'your-secret-key';
+const jwtSecretKey = 'abc123';
 const isAuthenticated = require('./middleware/isAuthenticated');
 const ejs = require("ejs");
 const path = require('path');
@@ -26,14 +27,34 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-var uri = "mongodb://127.0.0.1:27017/myDatabase";
-mongoose.connect(uri, { useUnifiedTopology: true, useNewUrlParser: true });
-const connection = mongoose.connection;
+const uri = "mongodb+srv://pranavkamble164:aZUFdLiRKkcLhARK@cluster01.v0uqueg.mongodb.net/myDatabase?retryWrites=true&w=majority&appName=Cluster01";
 
-connection.once("open", function () {
-  console.log("MongoDB database connection established successfully");
+// Create a MongoClient with a MongoClientOptions object to set the Stable API version
+const client = new MongoClient(uri, {
+  serverApi: {
+    version: ServerApiVersion.v1,
+    strict: true,
+    deprecationErrors: true,
+  }
 });
-
+async function run() {
+  try {
+    // Connect the client to the server	(optional starting in v4.7)
+    await client.connect();
+    // Send a ping to confirm a successful connection
+    await client.db("admin").command({ ping: 1 });
+    console.log("Pinged your deployment. You successfully connected to MongoDB!");
+  } finally {
+    // Ensures that the client will close when you finish/error
+    await client.close();
+  }
+}
+run().catch(console.dir);
+mongoose.connect(uri, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  // Remove buffermaxentries option
+});
 passport.use(new LocalStrategy(
   function (username, password, done) {
     console.log('Attempting authentication for doctor:', username);

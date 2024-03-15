@@ -36,6 +36,10 @@ router.get('/error', (req, res) => {
   res.render('error');
 });
 
+router.get('/signup-success', (req, res) => {
+  res.render('signup-success');
+});
+
 
 router.post('/signup', (req, res) => {
   const newUser = new User({
@@ -52,7 +56,9 @@ router.post('/signup', (req, res) => {
   newUser.save()
     .then(() => {
       console.log(req.body);
-      res.send("User signed up successfully!");
+      res.redirect('/signup-success')
+      
+
     })
     .catch((err) => {
       console.error(err);
