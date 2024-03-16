@@ -9,30 +9,29 @@
     <title>Dashboard</title>
     <link rel="stylesheet" href="doctorDashboard.css">
 
-       <script>
-        function toggleUserInfoVisibility(option) {
-            var userInfo = document.getElementById('userInfo');
-            var bookApp = document.getElementById('bookAppointment');
-            var appointmentHistory = document.getElementById('appointmentHistory');
+    <script>
+        const toggleSection = (option) => {
+            const sections = document.querySelectorAll('#content > div');
+            sections.forEach(section => {
+                if (section.id === option) {
+                    section.style.display = 'block';
+                } else {
+                    section.style.display = 'none';
+                }
+            });
+        };
 
-            if (option === 'dashboard') {
-                userInfo.style.display = 'block';
-                bookApp.style.display = 'none';
-                appointmentHistory.style.display = 'none';
-            } else if (option === 'bookAppointment') {
-                userInfo.style.display = 'none';
-                bookApp.style.display = 'block';
-                appointmentHistory.style.display = 'none';
-            } else if (option === 'appointmentHistory') {
-                userInfo.style.display = 'none';
-                bookApp.style.display = 'none';
-                appointmentHistory.style.display = 'block';
+        const sidebar = document.getElementById('sidebar');
+        const menuToggle = document.getElementById('menu-toggle');
+
+        menuToggle.addEventListener('click', () => {
+            const sidebarLeft = parseInt(window.getComputedStyle(sidebar).getPropertyValue('left'));
+            if (sidebarLeft < 0) {
+                sidebar.style.left = '0';
             } else {
-                userInfo.style.display = 'none';
-                bookApp.style.display = 'none';
-                appointmentHistory.style.display = 'none';
+                sidebar.style.left = '-250px';
             }
-        }
+        });
     </script>
 
 
@@ -40,78 +39,78 @@
 
 <body>
     <div id="sidebar">
-        <a href="#" onclick="toggleUserInfoVisibility('dashboard')">Dashboard</a>
-        <a href="#" onclick="toggleUserInfoVisibility('bookAppointment')">Book Appointment</a>
-        <a href="#" onclick="toggleUserInfoVisibility('appointmentHistory')">Appointment History</a>
-        <a href="#" onclick="toggleUserInfoVisibility('prescriptions')">Prescriptions</a>
-        <a href="/logout" ">Logout</a>
+        <ul>
+            <li><a href="#" onclick="toggleSection('dashboard')">Dashboard</a></li>
+            <li><a href="#" onclick="toggleSection('appointmentHistory')">Appointment History</a></li>
+            <li><a href="/logout">Logout</a></li>
+        </ul>
     </div>
+    <div id="content">
+        <h2>Welcome to Doctor Dashboard, Dr. <%= user.fullName %>!</h2>
 
-    <h2>Welcome to Doctor Dashboard, Dr. <%= user.fullName %>!</h2>
+        <div id="dashboard" style="display: block;">
+            <h3>Department: <%= user.department %>
+            </h3>
+            <p>Gender: <%= user.gender %>
+            </p>
+            <p>Phone: <%= user.phone %>
+            </p>
+            <p>Email: <%= user.email %>
+            </p>
+        </div>
 
-    <div>
-        <h3>Department: <%= user.department %>
-        </h3>
-        <p>Gender: <%= user.gender %>
-        </p>
-        <p>Phone: <%= user.phone %>
-        </p>
-        <p>Email: <%= user.email %>
-        </p>
-    </div>
+        <div id="appointmentHistory" style="display: none;">
+            <h3>Appointments</h3>
 
-    <div id="appointmentHistory" >
-    <h3>Appointments</h3>
+            <% if (appointments && appointments.length> 0) { %>
+                <table border="1">
+                    <thead>
+                        <tr>
+                            <th>Patient Name</th>
+                            <th>Date and Time</th>
+                            <th>Reason</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% appointments.forEach(appointment=> { %>
+                            <tr>
+                                <td>
+                                    <%= appointment.patientName %>
+                                </td>
+                                <td>
+                                    <%= appointment.dateTime %>
+                                </td>
+                                <td>
+                                    <%= appointment.reason %>
+                                </td>
+                                <td class="<%= appointment.status %>">
+                                    <%= appointment.status %>
+                                </td>
 
-    <% if (appointments && appointments.length> 0) { %>
-        <table border="1">
-            <thead>
-                <tr>
-                    <th>Patient Name</th>
-                    <th>Date and Time</th>
-                    <th>Reason</th>
-                    <th>Status</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <% appointments.forEach(appointment=> { %>
-                    <tr>
-                        <td>
-                            <%= appointment.patientName %>
-                        </td>
-                        <td>
-                            <%= appointment.dateTime %>
-                        </td>
-                        <td>
-                            <%= appointment.reason %>
-                        </td>
-                        <td class="<%= appointment.status %>">
-                            <%= appointment.status %>
-                        </td>
-                        
-                        <td>
-                            <form action="/updateAppointmentStatus" method="POST">
-                                <input type="hidden" name="appointmentId" value="<%= appointment._id %>">
-                                <select name="newStatus">
-                                    <option value="confirmed">Confirmed</option>
-                                    <option value="cancelled">Cancelled</option>
-                                    <option value="completed">Completed</option>
-                                </select>
-                                <button type="submit">Update Status</button>
-                            </form>
-                        </td>
-                    </tr>
-                    <% }); %>
-            </tbody>
-        </table>
-        <% } else { %>
-            <p>No appointments available.</p>
-            <% } %>
+                                <td>
+                                    <form action="/updateAppointmentStatus" method="POST">
+                                        <input type="hidden" name="appointmentId" value="<%= appointment._id %>">
+                                        <select name="newStatus">
+                                            <option value="confirmed">Confirmed</option>
+                                            <option value="cancelled">Cancelled</option>
+                                            <option value="completed">Completed</option>
+                                        </select>
+                                        <button type="submit">Update Status</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            <% }); %>
+                    </tbody>
+                </table>
+                <% } else { %>
+                    <p>No appointments available.</p>
+                    <% } %>
 
         </div>
 
-                <a href="/logout">Logout</a>
+    </div>
 
 </body>
 

@@ -148,4 +148,5 @@ const port = 4000;
 
 app.listen(port, function () {
   console.log("Server is running on Port: " + port);
+  console.log("Doctor Module started on Port "+ port);
 });
