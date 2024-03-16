@@ -70,6 +70,36 @@ router.get('/doctorDashboard', isAuthenticated, async (req, res) => {
   }
 });
 
+router.post('/appointments/:id/report', async (req, res) => {
+  try {
+      // Extract appointment ID from request parameters
+      const appointmentId = req.params.id;
+
+      // Find the appointment in the database
+      const appointment = await Appointment.findById(appointmentId);
+
+      if (!appointment) {
+          return res.status(404).send('Appointment not found');
+      }
+
+      // Update the appointment with report information
+      appointment.diagnosis = req.body.diagnosis;
+      appointment.treatment = req.body.treatment;
+      appointment.prescriptions = req.body.prescriptions;
+      appointment.notes = req.body.notes;
+
+      // Save the updated appointment to the database
+      await appointment.save();
+
+      // Respond with a success message
+      res.status(200).send('Report saved successfully');
+      
+  } catch (err) {
+      console.error('Error saving report:', err);
+      res.status(500).send('Error saving report');
+  }
+});
+
 // Import necessary modules and models
 
 // ... (other imports)
@@ -109,7 +139,6 @@ router.post('/updateAppointmentStatus', isAuthenticated, async (req, res) => {
 
 // Other route handlers can be added here
 
-module.exports = router;
 
 
 router.get('/logout', (req, res) => {

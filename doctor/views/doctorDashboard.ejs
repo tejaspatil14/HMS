@@ -1,4 +1,4 @@
-<!-- dashboard.ejs -->
+<!-- doctorDashboard.ejs -->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+    <title>Doctor Dashboard</title>
     <link rel="stylesheet" href="doctorDashboard.css">
 
     <script>
@@ -24,14 +24,6 @@
         const sidebar = document.getElementById('sidebar');
         const menuToggle = document.getElementById('menu-toggle');
 
-        menuToggle.addEventListener('click', () => {
-            const sidebarLeft = parseInt(window.getComputedStyle(sidebar).getPropertyValue('left'));
-            if (sidebarLeft < 0) {
-                sidebar.style.left = '0';
-            } else {
-                sidebar.style.left = '-250px';
-            }
-        });
     </script>
 
 
@@ -42,6 +34,7 @@
         <ul>
             <li><a href="#" onclick="toggleSection('dashboard')">Dashboard</a></li>
             <li><a href="#" onclick="toggleSection('appointmentHistory')">Appointment History</a></li>
+            <li><a href="#" onclick="toggleSection('report')">Generate Report</a></li>
             <li><a href="/logout">Logout</a></li>
         </ul>
     </div>
@@ -62,56 +55,100 @@
         <div id="appointmentHistory" style="display: none;">
             <h3>Appointments</h3>
 
-            <% if (appointments && appointments.length> 0) { %>
-                <table border="1">
-                    <thead>
-                        <tr>
-                            <th>Patient Name</th>
-                            <th>Date and Time</th>
-                            <th>Reason</th>
-                            <th>Status</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <% appointments.forEach(appointment=> { %>
-                            <tr>
-                                <td>
-                                    <%= appointment.patientName %>
-                                </td>
-                                <td>
-                                    <%= appointment.dateTime %>
-                                </td>
-                                <td>
-                                    <%= appointment.reason %>
-                                </td>
-                                <td class="<%= appointment.status %>">
-                                    <%= appointment.status %>
-                                </td>
-
-                                <td>
-                                    <form action="/updateAppointmentStatus" method="POST">
-                                        <input type="hidden" name="appointmentId" value="<%= appointment._id %>">
-                                        <select name="newStatus">
-                                            <option value="confirmed">Confirmed</option>
-                                            <option value="cancelled">Cancelled</option>
-                                            <option value="completed">Completed</option>
-                                        </select>
-                                        <button type="submit">Update Status</button>
-                                    </form>
-                                </td>
-                            </tr>
-                            <% }); %>
-                    </tbody>
-                </table>
-                <% } else { %>
-                    <p>No appointments available.</p>
-                    <% } %>
-
+            <% if (appointments && appointments.length > 0) { %>
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>Patient Name</th>
+                        <th>Date and Time</th>
+                        <th>Reason</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% appointments.forEach(appointment => { %>
+                    <tr>
+                        <td><%= appointment.patientName %></td>
+                        <td><%= appointment.dateTime %></td>
+                        <td><%= appointment.reason %></td>
+                        <td class="<%= appointment.status %>"><%= appointment.status %></td>
+                        <td>
+                            <form action="/updateAppointmentStatus" method="POST">
+                                <input type="hidden" name="appointmentId" value="<%= appointment._id %>">
+                                <select name="newStatus">
+                                    <option value="confirmed">Confirmed</option>
+                                    <option value="cancelled">Cancelled</option>
+                                    <option value="completed">Completed</option>
+                                </select>
+                                <button type="submit">Update Status</button>
+                            </form>
+                        </td>
+                    </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+            <% } else { %>
+            <p>No appointments available.</p>
+            <% } %>
         </div>
+
+        <div id="report" style="display: none;">
+            <h3>Generate Report</h3>
+            <% if (appointments && appointments.length > 0) { %>
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>Patient Name</th>
+                        <th>Date and Time</th>
+                        <th>Reason</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% appointments.forEach(appointment => { %>
+                    <tr>
+                        <td><%= appointment.patientName %></td>
+                        <td><%= appointment.dateTime %></td>
+                        <td><%= appointment.reason %></td>
+                        <td class="<%= appointment.status %>"><%= appointment.status %></td>
+                        <td>
+                            <button onclick="toggleSection('reportForm-<%= appointment._id %>')">Generate Report</button>
+                        </td>
+                    </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+            <% } else { %>
+            <p>No appointments available.</p>
+            <% } %>
+        </div>
+
+        <% appointments.forEach(appointment => { %>
+        <div id="reportForm-<%= appointment._id %>" style="display: none;">
+            <h3>Generate Report</h3>
+            <form action="/appointments/<%= appointment._id %>/report" method="POST">
+                <label for="diagnosis">Diagnostic Information:</label>
+                <textarea id="diagnosis" name="diagnosis" rows="4" required></textarea>
+
+                <label for="treatment">Treatment Provided:</label>
+                <textarea id="treatment" name="treatment" rows="4" required></textarea>
+
+                <label for="prescriptions">Prescriptions:</label>
+                <textarea id="prescriptions" name="prescriptions" rows="4"></textarea>
+
+                <label for="notes">Additional Notes:</label>
+                <textarea id="notes" name="notes" rows="4"></textarea>
+
+                <button type="submit">Submit Report</button>
+            </form>
+        </div>
+        <% }); %>
 
     </div>
 
 </body>
 
 </html>
+    
