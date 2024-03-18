@@ -18,7 +18,7 @@ async function connectDB() {
   try {
     // Connect to the MongoDB server
     await client.connect();
-    console.log("Connected to MongoDB Atlas");
+    console.log("Pinged your deployment. You successfully connected to MongoDB!");
 
     // Return the connected client
     return client;

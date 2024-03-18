@@ -9,15 +9,6 @@ const shortid = require('shortid');
 // console.log(require('fs').readdirSync(path.join(__dirname, '../middleware')));
 const isAuthenticated = require('./middleware/isAuthenticated'); // Adjust the path accordingly
 
-const getPatientAppointments = async (userId) => {
-  try {
-    const appointments = await Appointment.find({ userId });
-    return appointments;
-  } catch (error) {
-    console.error('Error fetching appointments:', error);
-    throw error;
-  }
-};
 
 
 router.get('/', (req, res) => {
@@ -40,6 +31,15 @@ router.get('/signup-success', (req, res) => {
   res.render('signup-success');
 });
 
+router.get('/getAppointments', async (req, res) => {
+  try {
+      const appointments = await Appointment.find({}); // Fetch appointments
+      res.json(appointments);
+  } catch (err) {
+      console.error('Error fetching appointments:', err);
+      res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
 
 router.post('/signup', (req, res) => {
   const newUser = new User({
@@ -114,6 +114,30 @@ router.get('/appointmentHistory', isAuthenticated, async (req, res) => {
   }
 });
 
+// Define the getPatientAppointments function to fetch appointments for the specified user
+async function getPatientAppointments(userId) {
+  try {
+      // Query the database to find appointments associated with the user's ID
+      const appointments = await Appointment.find({ userId: userId });
+
+      return appointments; // Return the fetched appointments
+  } catch (error) {
+      console.error('Error fetching appointments:', error);
+      throw error; // Throw an error if fetching appointments fails
+  }
+}
+
+router.get('/getAppointments/:userId', isAuthenticated, async (req, res) => {
+  try {
+      const userId = req.params.userId;
+      // Call the getPatientAppointments function to fetch appointments for the specified user
+      const appointments = await getPatientAppointments(userId);
+      res.json(appointments); // Send the fetched appointments as JSON response
+  } catch (error) {
+      console.error('Error fetching appointments:', error);
+      res.status(500).json({ error: 'Internal server error' }); // Handle errors appropriately
+  }
+});
 router.get('/patientDashboard', isAuthenticated, async (req, res) => {
   try {
     const { success, error } = req.query;
@@ -135,8 +159,6 @@ router.get('/patientDashboard', isAuthenticated, async (req, res) => {
     res.redirect('/patientLogin?error=Error fetching user');
   }
 });
-
-
 
 
 

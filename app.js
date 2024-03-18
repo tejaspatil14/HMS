@@ -13,7 +13,7 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const User = require("./models/user");
 const route = require("./route"); // Import the route module
-const connectDB = require("./connection")
+const connectDB = require("./connection");
 
 app.use(cookieParser());
 
@@ -24,7 +24,7 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-connectDB()
+connectDB();
 // Passport Configuration
 passport.use(
   new LocalStrategy(function (username, password, done) {
@@ -154,5 +154,5 @@ const port = 3000;
 
 app.listen(port, function () {
   console.log("Server is running on Port: " + port);
-  console.log("Changes for git tested");
+  console.log("Patient Module started on Port " + port);
 });

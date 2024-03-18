@@ -1,147 +1,152 @@
-<!-- dashboard.ejs -->
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+    <title>Patient Dashboard</title>
     <link rel="stylesheet" href="dashboard.css">
-
-
-    <script>
-        function toggleUserInfoVisibility(option) {
-            var userInfo = document.getElementById('userInfo');
-            var bookApp = document.getElementById('bookAppointment');
-            var appointmentHistory = document.getElementById('appointmentHistory');
-
-            if (option === 'dashboard') {
-                userInfo.style.display = 'block';
-                bookApp.style.display = 'none';
-                appointmentHistory.style.display = 'none';
-            } else if (option === 'bookAppointment') {
-                userInfo.style.display = 'none';
-                bookApp.style.display = 'block';
-                appointmentHistory.style.display = 'none';
-            } else if (option === 'appointmentHistory') {
-                userInfo.style.display = 'none';
-                bookApp.style.display = 'none';
-                appointmentHistory.style.display = 'block';
-            } else {
-                userInfo.style.display = 'none';
-                bookApp.style.display = 'none';
-                appointmentHistory.style.display = 'none';
-            }
-        }
-    </script>
-
 </head>
 
 <body>
     <div id="sidebar">
-        <a href="#" onclick="toggleUserInfoVisibility('dashboard')">Dashboard</a>
-        <a href="#" onclick="toggleUserInfoVisibility('bookAppointment')">Book Appointment</a>
-        <a href="#" onclick="toggleUserInfoVisibility('appointmentHistory')">Appointment History</a>
-        <a href="#" onclick="toggleUserInfoVisibility('prescriptions')">Prescriptions</a>
-        <a href="/logout" ">Logout</a>
+        <ul>
+            <li><a href="#" onclick="toggleSection('userInfo')">Dashboard</a></li>
+            <li><a href="#" onclick="toggleSection('bookAppointment')">Book Appointment</a></li>
+            <li><a href="#" onclick="toggleSection('appointmentHistory')">Appointment History</a></li>
+            <li><a href="#" onclick="toggleSection('report')">Report</a></li>
+            <li><a href="/logout">Logout</a></li>
+        </ul>
+    </div>
+    <div id="content">
+
+        <div id="userInfo" style="display: block;">
+            <p><strong>Username:</strong>
+                <%= user.username %>
+            </p>
+            <p><strong>Patient ID:</strong>
+                <%= user.patientId %>
+            </p>
+            <p><strong>Email:</strong>
+                <%= user.email %>
+            </p>
+            <p><strong>Full Name:</strong>
+                <%= user.fullName %>
+            </p>
+            <p><strong>Phone Number:</strong>
+                <%= user.phone %>
+            </p>
+            <p><strong>Date of Birth:</strong>
+                <%= user.dob.toLocaleDateString('en-GB') %>
+            </p>
+            <p><strong>Gender:</strong>
+                <%= user.gender %>
+            </p>
+        </div>
+
+        <div id="bookAppointment" style="display: none;">
+            <h2>Book Appointment</h2>
+            <form action="/bookAppointment" method="POST">
+                <h2>Appointment Form</h2>
+
+                <div class="form-group">
+                    <label for="patientName">Patient Name:</label>
+                    <input type="text" id="patientName" name="patientName" value="<%= user.fullName %>"
+                        readonly>
+                </div>
+
+                <div class="form-group">
+                    <label for="doctor">Select Doctor:</label>
+                    <select id="doctor" name="doctor" required>
+                        <option value="pranav">pranav</option>
+                        <option value="Vaishnavi">Vaishnavi</option>
+                        <option value="Onkar">Onkar</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="dateTime">Select Date and Time:</label>
+                    <input type="datetime-local" id="dateTime" name="dateTime" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="reason">Reason for Appointment:</label>
+                    <textarea id="reason" name="reason" rows="4" required></textarea>
+                </div>
+
+                <button type="submit">Submit Appointment</button>
+            </form>
+        </div>
+
+        <div id="appointmentHistory" style="display: none;">
+            <h2>Appointment History</h2>
+            <% if (appointments && appointments.length> 0) { %>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Doctor</th>
+                        <th>Date and Time</th>
+                        <th>Reason</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% appointments.forEach(appointment=> { %>
+                    <tr>
+                        <td><%= appointment.doctor %></td>
+                        <td><%= appointment.dateTime.toLocaleString() %></td>
+                        <td><%= appointment.reason %></td>
+                        <td><%= appointment.status %></td>
+                    </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+            <% } else { %>
+            <p>No appointment history available.</p>
+            <% } %>
+        </div>
+
+        <div id="report" style="display: none;">
+            <h2>Report</h2>
+            <% if (appointments && appointments.length> 0) { %>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>diagnosis</th>
+                            <th>Date and Time</th>
+                            <th>Reason</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% appointments.forEach(appointment=> { %>
+                        <tr>
+                            <td><%= appointment.diagnosis %></td>
+                            <td><%= appointment.treatment %></td>
+                            <td><%= appointment.prescriptions %></td>
+                            <td><%= appointment.notes %></td>
+                        </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+                <% } else { %>
+                <p>No appointment history available.</p>
+                <% } %>
+        </div>
     </div>
 
-    <div id="main-content">
-        <h1>Welcome to the Dashboard</h1>
-                    <div id="userInfo">
-                        <p><strong>Username:</strong>
-                            <%= user.username %>
-                        </p>
-                        <p><strong>Patient ID:</strong>
-                            <%= user.patientId %>
-                        </p>
-                        <p><strong>Email:</strong>
-                            <%= user.email %>
-                        </p>
-                        <p><strong>Full Name:</strong>
-                            <%= user.fullName %>
-                        </p>
-                        <p><strong>Phone Number</strong>
-                            <%= user.phone %>
-                        </p>
-                        <p><strong>Date of Birth:</strong>
-                            <%= user.dob.toLocaleDateString('en-GB') %>
-                        </p>
-                        <p><strong>Gender:</strong>
-                            <%= user.gender %>
-                        </p>
-                    </div>
-
-                    <div id="bookAppointment">
-                        <h2>Book Appointment</h2>
-                        <form action="/bookAppointment" method="POST">
-                            <form action="/bookAppointment" method="POST">
-                                <h2>Appointment Form</h2>
-
-                                <div class="form-group">
-                                    <label for="patientName">Patient Name:</label>
-                                    <input type="text" id="patientName" name="patientName" value="<%= user.fullName %>"
-                                        readonly>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="doctor">Select Doctor:</label>
-                                    <select id="doctor" name="doctor" required>
-                                        <option value="pranav">pranav</option>
-                                        <option value="Vaishnavi">Vaishnavi</option>
-                                        <option value="Onkar">Onkar</option>
-                                    </select>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="dateTime">Select Date and Time:</label>
-                                    <input type="datetime-local" id="dateTime" name="dateTime" required>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="reason">Reason for Appointment:</label>
-                                    <textarea id="reason" name="reason" rows="4" required></textarea>
-                                </div>
-
-                                <button type="submit">Submit Appointment</button>
-                            </form>
-                    </div>
-
-                    <div id="appointmentHistory">
-                        <h2>Appointment History</h2>
-                        <!-- appointmentHistory.ejs -->
-                        <% if (appointments && appointments.length > 0) { %>
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>Doctor</th>
-                                        <th>Date and Time</th>
-                                        <th>Reason</th>
-                                        <th>Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <% appointments.forEach(appointment => { %>
-                                        <tr>
-                                            <td><%= appointment.doctor %></td>
-                                            <td><%= appointment.dateTime.toLocaleString() %></td>
-                                            <td><%= appointment.reason %></td>
-                                            <td><%= appointment.status %></td>
-                                        </tr>
-                                    <% }); %>
-                                </tbody>
-                            </table>
-                        <% } else { %>
-                            <p>No appointment history available.</p>
-                        <% } %>
-                    </div>
-
-
-                    <!-- <div id="logout">
-                        <a href="/logout">Logout</a>
-                    </div> -->
-    </div>
+    <script>
+        const toggleSection = (option) => {
+            const sections = document.querySelectorAll('#content > div');
+            sections.forEach(section => {
+                if (section.id === option) {
+                    section.style.display = 'block';
+                } else {
+                    section.style.display = 'none';
+                }
+            });
+        };
+    </script>
 </body>
 
 </html>
