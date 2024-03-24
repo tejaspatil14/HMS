@@ -108,32 +108,37 @@
 
         <div id="report" style="display: none;">
             <h2>Report</h2>
-            <% if (appointments && appointments.length> 0) { %>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>diagnosis</th>
-                            <th>Date and Time</th>
-                            <th>Reason</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <% appointments.forEach(appointment=> { %>
-                        <tr>
-                            <td><%= appointment.diagnosis %></td>
-                            <td><%= appointment.treatment %></td>
-                            <td><%= appointment.prescriptions %></td>
-                            <td><%= appointment.notes %></td>
-                        </tr>
-                        <% }); %>
-                    </tbody>
-                </table>
-                <% } else { %>
-                <p>No appointment history available.</p>
-                <% } %>
+            <% if (appointments && appointments.length > 0) { %>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Diagnosis</th>
+                        <th>Treatment</th>
+                        <th>Prescriptions</th>
+                        <th>Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% appointments.forEach(appointment => { %>
+                    <% appointment.reports.forEach(report => { %>
+                    <tr>
+                        <td><%= report.diagnosis %></td>
+                        <td><%= report.treatment %></td>
+                        <td><%= report.prescriptions %></td>
+                        <td><%= report.notes %></td>
+                    </tr>
+                    <% }); %>
+                    <% }); %>
+                </tbody>
+            </table>
+            <% } else { %>
+            <p>No reports available.</p>
+            <% } %>
         </div>
-    </div>
+
+
+        
+        </div>
 
     <script>
         const toggleSection = (option) => {

@@ -7,7 +7,13 @@ const userSchema = new mongoose.Schema({
   fullName: String,
   dob: Date,
   gender: String,
-  phone:String
+  phone:String,
+  patientId: {
+    type: String,
+    unique: true,
+    required: true,
+  },
+  userType: String,
 });
 
 const User = mongoose.model("User", userSchema);

@@ -9,11 +9,10 @@ const appointmentSchema = new mongoose.Schema({
   reason: { type: String, required: true },
   userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   status: { type: String, enum: ['confirmed', 'cancelled', 'completed'], default: 'confirmed' },
+  reports: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Report' }],
 
-  diagnosis: { type: String, required: true },
-  treatment: { type: String, required: true },
-  prescriptions: { type: String },
-  notes: { type: String }
+
+
 });
 
 const Appointment = mongoose.model('Appointment', appointmentSchema);

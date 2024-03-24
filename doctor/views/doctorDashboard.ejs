@@ -21,8 +21,25 @@
             });
         };
 
-        const sidebar = document.getElementById('sidebar');
-        const menuToggle = document.getElementById('menu-toggle');
+            // Function to filter patients based on search input
+            function searchPatients() {
+                const input = document.getElementById('searchInput').value.toUpperCase();
+                const table = document.getElementById('patientTable');
+                const rows = table.getElementsByTagName('tr');
+    
+                for (let i = 0; i < rows.length; i++) {
+                    const nameColumn = rows[i].getElementsByTagName('td')[0];
+                    if (nameColumn) {
+                        const nameText = nameColumn.textContent || nameColumn.innerText;
+                        if (nameText.toUpperCase().indexOf(input) > -1) {
+                            rows[i].style.display = '';
+                        } else {
+                            rows[i].style.display = 'none';
+                        }
+                    }
+                }
+            }
+        
 
     </script>
 
@@ -35,6 +52,7 @@
             <li><a href="#" onclick="toggleSection('dashboard')">Dashboard</a></li>
             <li><a href="#" onclick="toggleSection('appointmentHistory')">Appointment History</a></li>
             <li><a href="#" onclick="toggleSection('report')">Generate Report</a></li>
+            <li><a href="#" onclick="toggleSection('patientHistory')">Pateints History</a></li>
             <li><a href="/logout">Logout</a></li>
         </ul>
     </div>
@@ -146,7 +164,38 @@
         </div>
         <% }); %>
 
-    </div>
+
+        <div id="patientHistory" style="display: block;">
+            <h2>Patient History</h2>
+
+            <!-- Search input field -->
+            <input type="text" id="searchInput" oninput="searchPatients()" placeholder="Search by patient name">
+
+            <!-- Table to display patient history -->
+            <table id="patientTable" border="1">
+                <thead>
+                    <tr>
+                        <th>Patient Name</th>
+                        <th>Patient ID</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Table rows for patient data -->
+                    <% users.forEach(user => { %>
+                    <tr>
+                        <td><%= user.fullName %></td>
+                        <td><%= user.patientId %></td>
+                    </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+
+            <!-- Button to show report history -->
+            <button onclick="toggleReportHistory()">Show Report History</button>
+        </div>
+
+        
+        
 
 </body>
 

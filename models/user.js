@@ -13,6 +13,7 @@ const userSchema = new mongoose.Schema({
     unique: true,
     required: true,
   },
+  userType: 'patient' 
 });
 
 const User = mongoose.model("User", userSchema);

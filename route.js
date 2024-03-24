@@ -5,6 +5,7 @@ const User = require('./models/user');
 const passport = require('passport');
 const Appointment = require('./models/appointment');
 const shortid = require('shortid');
+const Report = require('./models/report');
 
 // console.log(require('fs').readdirSync(path.join(__dirname, '../middleware')));
 const isAuthenticated = require('./middleware/isAuthenticated'); // Adjust the path accordingly
@@ -50,11 +51,15 @@ router.post('/signup', (req, res) => {
     fullName: req.body.fullName,
     dob: req.body.dob,
     gender: req.body.gender,
+    userType: 'patient',
     patientId: shortid.generate(),
   });
 
+
+
   newUser.save()
     .then(() => {
+      console.log(typeof(newUser))
       console.log(req.body);
       res.redirect('/signup-success')
       
@@ -70,6 +75,29 @@ router.post('/signup', (req, res) => {
    });
 });
 
+
+
+// Fetch reports for a specific appointment
+async function getAppointmentReports(appointmentId) {
+    try {
+        const reports = await Report.find({ appointmentId: appointmentId });
+        return reports;
+    } catch (error) {
+        console.error('Error fetching reports:', error);
+        throw error;
+    }
+}
+
+router.get('/getReports/:appointmentId', async (req, res) => {
+    try {
+        const { appointmentId } = req.params;
+        const reports = await getAppointmentReports(appointmentId);
+        res.json(reports);
+    } catch (error) {
+        console.error('Error fetching reports:', error);
+        res.status(500).json({ error: 'Error fetching reports' });
+    }
+});
 
 
 router.post('/bookAppointment', isAuthenticated, async (req, res) => {
@@ -159,6 +187,12 @@ router.get('/patientDashboard', isAuthenticated, async (req, res) => {
     res.redirect('/patientLogin?error=Error fetching user');
   }
 });
+
+
+
+
+
+
 
 
 

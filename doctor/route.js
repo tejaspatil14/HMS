@@ -7,6 +7,9 @@ const Appointment = require('./models/appointment');
 const verifyToken = require('./verifyToken');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
+const Report = require('./models/report');
+const { getPatients } = require('./getPatient')
+
 
 const isAuthenticated = require('./middleware/isAuthenticated'); // Adjust the path accordingly
 
@@ -55,6 +58,7 @@ router.get('/doctorDashboard', isAuthenticated, async (req, res) => {
   try {
     const doctorUsername = req.user.username;
     const doctor = await Doctor.findOne({ username: doctorUsername }).exec();
+    const users = await User.find({ userType: 'patient' }).select('fullName patientId');
 
     if (!doctor) {
       return res.status(404).send('Doctor not found');
@@ -63,12 +67,13 @@ router.get('/doctorDashboard', isAuthenticated, async (req, res) => {
     const appointments = await Appointment.find({ doctor: doctorUsername }).exec();
     // console.log('Appointments:', appointments);
 
-    res.render('doctorDashboard', { user: doctor, appointments });
+    res.render('doctorDashboard', { user: doctor, appointments, users });
   } catch (err) {
     console.error('Error fetching doctor appointments:', err);
     res.status(500).render('error');
   }
 });
+
 
 router.post('/appointments/:id/report', async (req, res) => {
   try {
@@ -82,24 +87,30 @@ router.post('/appointments/:id/report', async (req, res) => {
           return res.status(404).send('Appointment not found');
       }
 
-      // Update the appointment with report information
-      appointment.diagnosis = req.body.diagnosis;
-      appointment.treatment = req.body.treatment;
-      appointment.prescriptions = req.body.prescriptions;
-      appointment.notes = req.body.notes;
+      // Create a new report using the Report model
+      const report = new Report({
+          appointmentId: appointment._id,
+          diagnosis: req.body.diagnosis,
+          treatment: req.body.treatment,
+          prescriptions: req.body.prescriptions,
+          notes: req.body.notes
+      });
 
-      // Save the updated appointment to the database
+      // Save the new report to the database
+      await report.save();
+
+      // Update the appointment to include the new report
+      appointment.reports.push(report._id);
       await appointment.save();
 
       // Respond with a success message
       res.status(200).send('Report saved successfully');
-      
+
   } catch (err) {
       console.error('Error saving report:', err);
       res.status(500).send('Error saving report');
   }
 });
-
 // Import necessary modules and models
 
 // ... (other imports)
@@ -138,6 +149,13 @@ router.post('/updateAppointmentStatus', isAuthenticated, async (req, res) => {
 });
 
 // Other route handlers can be added here
+
+// Route to fetch patient history
+
+
+// Define routes
+
+
 
 
 

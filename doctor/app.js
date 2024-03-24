@@ -16,6 +16,7 @@ const LocalStrategy = require('passport-local').Strategy;
 const User = require("./models/user");
 const Doctor = require("./models/doctor");
 const Appointment = require("./models/appointment");
+
 const route = require('./route'); // Import the route module
 
 app.use(cookieParser());
