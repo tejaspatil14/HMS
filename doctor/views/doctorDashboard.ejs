@@ -78,6 +78,8 @@
                 <thead>
                     <tr>
                         <th>Patient Name</th>
+                        <th>Patient ID</th>
+                        
                         <th>Date and Time</th>
                         <th>Reason</th>
                         <th>Status</th>
@@ -88,6 +90,7 @@
                     <% appointments.forEach(appointment => { %>
                     <tr>
                         <td><%= appointment.patientName %></td>
+                        <td><%= appointment.patientId %></td>
                         <td><%= appointment.dateTime %></td>
                         <td><%= appointment.reason %></td>
                         <td class="<%= appointment.status %>"><%= appointment.status %></td>
@@ -118,6 +121,7 @@
                 <thead>
                     <tr>
                         <th>Patient Name</th>
+                        <th>Patient ID</th>
                         <th>Date and Time</th>
                         <th>Reason</th>
                         <th>Status</th>
@@ -128,6 +132,7 @@
                     <% appointments.forEach(appointment => { %>
                     <tr>
                         <td><%= appointment.patientName %></td>
+                        <td><%= appointment.patientId %></td>
                         <td><%= appointment.dateTime %></td>
                         <td><%= appointment.reason %></td>
                         <td class="<%= appointment.status %>"><%= appointment.status %></td>

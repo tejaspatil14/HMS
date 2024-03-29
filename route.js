@@ -6,6 +6,7 @@ const passport = require('passport');
 const Appointment = require('./models/appointment');
 const shortid = require('shortid');
 const Report = require('./models/report');
+const ObjectId = require('mongoose').Types.ObjectId;
 
 // console.log(require('fs').readdirSync(path.join(__dirname, '../middleware')));
 const isAuthenticated = require('./middleware/isAuthenticated'); // Adjust the path accordingly
@@ -78,34 +79,30 @@ router.post('/signup', (req, res) => {
 
 
 // Fetch reports for a specific appointment
-async function getAppointmentReports(appointmentId) {
-    try {
-        const reports = await Report.find({ appointmentId: appointmentId });
-        return reports;
-    } catch (error) {
-        console.error('Error fetching reports:', error);
-        throw error;
-    }
-}
+router.get('/patient/appointments', isAuthenticated, async (req, res) => {
+  try {
+    // Get the patient's ID
+    const userId = req.user._id;
 
-router.get('/getReports/:appointmentId', async (req, res) => {
-    try {
-        const { appointmentId } = req.params;
-        const reports = await getAppointmentReports(appointmentId);
-        res.json(reports);
-    } catch (error) {
-        console.error('Error fetching reports:', error);
-        res.status(500).json({ error: 'Error fetching reports' });
-    }
+    // Find appointments for the specific patient and populate the reports field
+    const appointments = await Appointment.find({ userId: ObjectId(userId) }).populate('reports');
+    // const reports = await Report.find({ userId: ObjectId(userId) });
+    console.log("Reports /patient/appointments:",reports)
+
+    // Render the appointments page with the appointments data
+    res.render('appointments', { appointments });
+  } catch (err) {
+    console.error('Error fetching appointments:', err);
+    res.status(500).render('error');
+  }
 });
-
 
 router.post('/bookAppointment', isAuthenticated, async (req, res) => {
   try {
-    const { patientName, doctor, dateTime, reason } = req.body;
+    const { patientName, doctor, dateTime, reason,patientId } = req.body;
 
     // Assuming you have patientId generated during signup or elsewhere
-    const { patientId } = req.user;
+    // const { patientId } = req.user;
 
     const newAppointment = new Appointment({
       patientName,
@@ -114,11 +111,10 @@ router.post('/bookAppointment', isAuthenticated, async (req, res) => {
       reason,
       userId: req.user._id,
       patientId, // Include patientId here
-      appointmentId: shortid.generate(), // Include an appointmentId using shortid
     });
 
     await newAppointment.save();
-
+    // console.log("Reports :",reports)
     res.redirect('/patientDashboard?success=Appointment booked successfully');
   } catch (error) {
     console.error('Error during appointment booking:', error);
@@ -135,7 +131,11 @@ router.get('/appointmentHistory', isAuthenticated, async (req, res) => {
     const appointments = await Appointment.find({ userId: req.user._id });
     console.log('Appointments for Appointment History:', appointments);
 
-    res.render('appointmentHistory', { user, appointments });
+    // const reports = await Reports.find({ userId: req.user._id });
+    // console.log('Appointments for Appointment History:', appointments);
+    console.log("Reports appointmentHistory:",reports)
+
+    res.render('appointmentHistory', { user, appointments});
   } catch (error) {
     console.error('Error fetching appointment history:', error);
     res.redirect('/patientDashboard?error=Error fetching appointment history');
@@ -155,33 +155,23 @@ async function getPatientAppointments(userId) {
   }
 }
 
-router.get('/getAppointments/:userId', isAuthenticated, async (req, res) => {
-  try {
-      const userId = req.params.userId;
-      // Call the getPatientAppointments function to fetch appointments for the specified user
-      const appointments = await getPatientAppointments(userId);
-      res.json(appointments); // Send the fetched appointments as JSON response
-  } catch (error) {
-      console.error('Error fetching appointments:', error);
-      res.status(500).json({ error: 'Internal server error' }); // Handle errors appropriately
-  }
-});
+
 router.get('/patientDashboard', isAuthenticated, async (req, res) => {
   try {
     const { success, error } = req.query;
-
-    // Fetch user with the necessary fields
     const user = await User.findById(req.user._id).select('username patientId email fullName phone dob gender');
-
-    if (!user) {
-      return res.render('patientDashboard', { user: { appointments: [] }, success, error });
-    }
-
-    console.log('User Object:', user); // Log the user object
-
     const appointments = await getPatientAppointments(req.user._id);
+    
+    // Fetch reports for each appointment fetched for the patient
+    const reportPromises = appointments.map(async (appointment) => {
+      return await Report.find({ appointmentId: appointment._id });
+    });
 
-    res.render('patientDashboard', { user, appointments, success, error });
+    // Resolve all report promises
+    const reports = await Promise.all(reportPromises);
+
+    console.log("Reports patientDashboard:", reports);
+    res.render('patientDashboard', { user, appointments, success, error, reports }); // Pass 'reports' variable to the template
   } catch (error) {
     console.error('Error fetching user for patientDashboard:', error);
     res.redirect('/patientLogin?error=Error fetching user');
@@ -193,7 +183,17 @@ router.get('/patientDashboard', isAuthenticated, async (req, res) => {
 
 
 
-
+router.get('/reports', isAuthenticated, async (req, res) => {
+  try {
+    const userId = req.user._id; // Assuming user's ID is used to fetch reports
+    const reports = await Report.find({ patientId: userId }); // Fetch reports for the current user
+    console.log("Reports reports:", reports);
+    res.render('reports', { reports });
+  } catch (error) {
+    console.error('Error fetching reports:', error);
+    res.redirect('/patientDashboard?error=Error fetching reports');
+  }
+});
 
 
 router.get('/logout', (req, res) => {
@@ -201,6 +201,7 @@ router.get('/logout', (req, res) => {
     if (err) {
       console.error('Error during logout:', err);
       console.error("only this changed")
+
       return res.redirect('/');
     }
     res.clearCookie('token');
@@ -209,4 +210,3 @@ router.get('/logout', (req, res) => {
 });
 
 module.exports = router;
-// module.exports.isAuthenticated = isAuthenticated;

@@ -14,7 +14,7 @@
             <li><a href="#" onclick="toggleSection('userInfo')">Dashboard</a></li>
             <li><a href="#" onclick="toggleSection('bookAppointment')">Book Appointment</a></li>
             <li><a href="#" onclick="toggleSection('appointmentHistory')">Appointment History</a></li>
-            <li><a href="#" onclick="toggleSection('report')">Report</a></li>
+            <li><a href="#" onclick="toggleSection('reports')">Report</a></li>
             <li><a href="/logout">Logout</a></li>
         </ul>
     </div>
@@ -73,6 +73,11 @@
                     <label for="reason">Reason for Appointment:</label>
                     <textarea id="reason" name="reason" rows="4" required></textarea>
                 </div>
+                <div class="form-group">
+                    <!-- <label for="reason">Reason for Appointment:</label> -->
+                    <input type="text" id="patientId" name="patientId" value="<%= user.patientId %>"
+                        readonly>
+                </div>
 
                 <button type="submit">Submit Appointment</button>
             </form>
@@ -106,35 +111,36 @@
             <% } %>
         </div>
 
-        <div id="report" style="display: none;">
-            <h2>Report</h2>
-            <% if (appointments && appointments.length > 0) { %>
-            <table>
+        <div id="reports" style="display: none;">
+            <h2>Reports</h2>
+            <% if (reports && reports.length > 0) { %>
+              <table>
                 <thead>
-                    <tr>
-                        <th>Diagnosis</th>
-                        <th>Treatment</th>
-                        <th>Prescriptions</th>
-                        <th>Notes</th>
-                    </tr>
+                  <tr>
+                    <th>Diagnosis</th>
+                    <th>Treatment</th>
+                    <th>Prescriptions</th>
+                    <th>Notes</th>
+                  </tr>
                 </thead>
                 <tbody>
-                    <% appointments.forEach(appointment => { %>
-                    <% appointment.reports.forEach(report => { %>
-                    <tr>
+                  <% reports.forEach(reportArray => { %>
+                    <% reportArray.forEach(report => { %>
+                      <tr>
                         <td><%= report.diagnosis %></td>
                         <td><%= report.treatment %></td>
                         <td><%= report.prescriptions %></td>
                         <td><%= report.notes %></td>
-                    </tr>
+                      </tr>
                     <% }); %>
-                    <% }); %>
+                  <% }); %>
                 </tbody>
-            </table>
+              </table>
             <% } else { %>
-            <p>No reports available.</p>
+              <p>No reports available.</p>
             <% } %>
-        </div>
+          </div>
+          
 
 
         

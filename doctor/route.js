@@ -14,7 +14,7 @@ const { getPatients } = require('./getPatient')
 const isAuthenticated = require('./middleware/isAuthenticated'); // Adjust the path accordingly
 
 router.get('/', (req, res) => {
-  res.render('index');
+  res.render('doctorLogin');
 });
 router.get('/error', (req, res) => {
   res.render('error');
@@ -74,8 +74,7 @@ router.get('/doctorDashboard', isAuthenticated, async (req, res) => {
   }
 });
 
-
-router.post('/appointments/:id/report', async (req, res) => {
+router.post('/appointments/:id/report', isAuthenticated, async (req, res) => {
   try {
       // Extract appointment ID from request parameters
       const appointmentId = req.params.id;
@@ -89,6 +88,7 @@ router.post('/appointments/:id/report', async (req, res) => {
 
       // Create a new report using the Report model
       const report = new Report({
+          userId: req.user._id, // Assuming the user is authenticated and req.user contains the user object
           appointmentId: appointment._id,
           diagnosis: req.body.diagnosis,
           treatment: req.body.treatment,
