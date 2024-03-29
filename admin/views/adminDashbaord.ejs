@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Welcome to the Admin Dashboard</h1>
+    </header>
+
+    <main>
+        <section id="actions">
+            <!-- Add Patient Button -->
+            <form action="/addPatient">
+                <button type="submit">Add Patient</button>
+            </form>
+
+            <!-- Add Doctor Button -->
+            <form action="/addDoctor">
+                <button type="submit">Add Doctor</button>
+            </form>
+
+            <!-- Remove Patient Button -->
+            <form action="/removePatient">
+                <button type="submit">Remove Patient</button>
+            </form>
+
+            <!-- Remove Doctor Button -->
+            <form action="/removeDoctor">
+                <button type="submit">Remove Doctor</button>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Admin Panel</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Redirect to patient login page
+            document.getElementById('addPateint').addEventListener('click', function () {
+                window.location.href = '/addPateint'; 
+            });
+            
+            document.getElementById('addDoctor').addEventListener('click', function () {
+                window.location.href = '/addDoctor'; 
+            });
+            
+            document.getElementById('removePatient').addEventListener('click', function () {
+                window.location.href = '/removePatient'; 
+            });
+        });
+      </script>
+</body>
+</html>

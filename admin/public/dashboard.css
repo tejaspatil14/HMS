@@ -1,0 +1,169 @@
+/* doctorDashboard.css */
+
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f2f2f2;
+}
+
+#sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 250px;
+    height: 100%;
+    background-color: #333;
+    padding-top: 50px;
+}
+
+#sidebar ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+#sidebar ul li {
+    padding: 10px;
+}
+
+
+#sidebar ul li a {
+    color: #fff;
+    text-decoration: none;
+    display: block;
+    padding: 20px;
+}
+
+#sidebar ul li a:hover {
+    background-color: #555;
+    border-radius: 15px;
+}
+
+#content {
+    margin-left: 250px;
+    padding: 20px;
+}
+
+/* Responsive Styles */
+@media only screen and (max-width: 768px) {
+    #sidebar {
+        width: 150px;
+    }
+    
+    #content {
+        margin-left: 150px;
+    }
+}
+
+
+#bookAppointment form {
+    max-width: 400px;
+    margin: 0 auto;
+    text-align: left;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+input,
+select,
+textarea {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-top: 5px;
+}
+
+button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Styles for Table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    background-color: #333;
+    color: #fff;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+/* Button Styles */
+button {
+    padding: 8px 16px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #555;
+}
+
+/* Input Styles */
+input[type="hidden"] {
+    display: none;
+}
+
+select {
+    padding: 8px;
+    border: 1px solid #ccc;
+}
+
+/* Responsive Toggle Menu */
+#menu-toggle {
+    display: none;
+}
+
+@media only screen and (max-width: 768px) {
+    #sidebar {
+        left: -150px;
+    }
+    
+    #content {
+        margin-left: 0;
+    }
+    
+    #menu-toggle {
+        display: block;
+        position: fixed;
+        top: 10px;
+        left: 10px;
+        background-color: #333;
+        color: #fff;
+        padding: 10px;
+        border: none;
+        cursor: pointer;
+    }
+}
