@@ -997,7 +997,6 @@
             height: 90px;
             width: 100%;
             background-color: var(--nav-color);
-            /* Changed from commented color to variable */
             z-index: 100;
         }
 
@@ -1031,6 +1030,7 @@
             font-weight: 500;
             color: var(--text-color);
             text-decoration: none;
+            /* -----------navbar */
         }
 
         .menu .logo-toggle {
@@ -1040,6 +1040,7 @@
         .nav-bar .nav-links {
             display: flex;
             align-items: center;
+            /* margin: 2px; */
         }
 
         .nav-bar .nav-links li {
