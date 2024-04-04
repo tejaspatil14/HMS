@@ -1,163 +1,396 @@
+<!-- dashboard.ejs -->
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Patient Dashboard</title>
+    <title>Dashboard</title>
     <link rel="stylesheet" href="dashboard.css">
+
+
+    <!-- ===== CSS ===== -->
+    <link rel="stylesheet" href="style.css">
+        
+    <!-- ===== Boxicons CSS ===== -->
+    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+
 </head>
 
-<body>
-    <div id="sidebar">
-        <ul>
-            <li><a href="#" onclick="toggleSection('userInfo')">Dashboard</a></li>
-            <li><a href="#" onclick="toggleSection('bookAppointment')">Book Appointment</a></li>
-            <li><a href="#" onclick="toggleSection('appointmentHistory')">Appointment History</a></li>
-            <li><a href="#" onclick="toggleSection('reports')">Report</a></li>
-            <li><a href="/logout">Logout</a></li>
-        </ul>
+<body class="img">
+    <nav class="skils">
+        <div class="nav-bar">
+            <i class='bx bx-menu sidebarOpen' ></i>
+            <span class="logo navLogo"><a href="./index.ejs">UnityMed Hospital</a></span>
+            <div class="menu">
+                <div class="logo-toggle">
+                    <span class="logo"><a href="./index.ejs">UnityMed Hospital</a></span>
+                    <i class='bx bx-x siderbarClose'></i>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Services</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+            <div class="darkLight-searchBox">
+                <div class="dark-light">
+                    <i class='bx bx-moon moon'></i>
+                    <i class='bx bx-sun sun'></i>
+                </div>
+                <div class="searchBox">
+                   <div class="searchToggle">
+                    <i class='bx bx-x cancel'></i>
+                    <i class='bx bx-search search'></i>
+                   </div>
+                    <div class="search-field">
+                        <input type="text" placeholder="Search...">
+                        <i class='bx bx-search'></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- ----------------------------HAMBURHER NAVBAR----------------------------------------------------- -->
+    <div>
+
+
+
+        <nav role="navigation" class="cta-text">
+            <div id="menuToggle">
+    
+                <input type="checkbox" />
+    
+                <span></span>
+                <span></span>
+                <span></span>
+    
+                <ul id="menu">
+                    <li>
+                        <a href="#" class="sidebar-link" data-option="dashboard">Dashboard</a>
+                    </li>
+                    <li>
+                        <a href="#" class="sidebar-link" data-option="bookAppointment">Book Appointment</a>
+                    </li>
+                    <li>
+                        <a href="#" class="sidebar-link" data-option="appointmentHistory">Appointment History</a>
+                    </li>
+                    <li>
+                        <a href="#" class="sidebar-link" data-option="prescription">Prescriptions</a>
+                    </li>
+                    <li>
+                        <a href="/logout">Logout</a>
+                    </li>
+    
+                </ul>
+            </div>
+        </nav>
+    
+        <div id="main-content">
+            <section>
+                <div id="userInfo">
+                    <div id="Head"></div>
+                    <h1>Welcome to the Dashboard</h1>
+    
+                    <p><strong>Username:</strong>
+                        <%= user.username %>
+                    </p>
+                    <p><strong>Patient ID:</strong>
+                        <%= user.patientId %>
+                    </p>
+                    <p><strong>Email:</strong>
+                        <%= user.email %>
+                    </p>
+                    <p><strong>Full Name:</strong>
+                        <%= user.fullName %>
+                    </p>
+                    <p><strong>Phone Number</strong>
+                        <%= user.phone %>
+                    </p>
+                    <p><strong>Date of Birth:</strong>
+                        <%= user.dob.toLocaleDateString('en-GB') %>
+                    </p>
+                    <p><strong>Gender:</strong>
+                        <%= user.gender %>
+                    </p>
+    
+                </div>
+            </section>
+    
+    
+            <section>
+                <div id="bookAppointment">
+    
+                    <h2>Book Appointment</h2>
+                    <form action="/bookAppointment" method="POST">
+                        <h2>Appointment Form</h2>
+    
+                        <div class="form-group">
+                            <label for="patientName">Patient Name:</label>
+                            <input type="text" id="patientName" name="patientName" value="<%= user.fullName %>" readonly>
+                        </div>
+    
+                        <div class="form-group">
+                            <label for="doctor">Select Doctor:</label>
+                            <select id="doctor" name="doctor" required>
+                                <option value="doctor1">Doctor 1</option>
+                                <option value="doctor2">Doctor 2</option>
+                                <option value="doctor3">Doctor 3</option>
+                            </select>
+                        </div>
+    
+                        <div class="form-group">
+                            <label for="dateTime">Select Date and Time:</label>
+                            <input type="datetime-local" id="dateTime" name="dateTime" required>
+                        </div>
+    
+                        <div class="form-group">
+                            <label for="reason">Reason for Appointment:</label>
+                            <textarea id="reason" name="reason" rows="4" required></textarea>
+                        </div>
+    
+                        <button type="submit">Submit Appointment</button>
+                    </form>
+                </div>
+            </section>
+    
+            <section>
+    
+                <div id="appointmentHistory">
+                    <h2>Appointment History</h2>
+    
+                    <% if (appointments && appointments.length> 0) { %>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Doctor</th>
+                                    <th>Date and Time</th>
+                                    <th>Reason</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% appointments.forEach(appointment=> { %>
+                                    <tr>
+                                        <td>
+                                            <%= appointment.doctor %>
+                                        </td>
+                                        <td>
+                                            <%= appointment.dateTime.toLocaleString() %>
+                                        </td>
+                                        <td>
+                                            <%= appointment.reason %>
+                                        </td>
+                                        <td>
+                                            <%= appointment.status %>
+                                        </td>
+                                    </tr>
+                                    <% }); %>
+                            </tbody>
+                        </table>
+                        <% } else { %>
+                            <p>No appointment history available.</p>
+                            <% } %>
+                </div>
+    
+            </section>
+    
+            <section>
+                <div id="prescription">
+                    <div class="prescription-form">
+                        <h2>Doctor's Prescription</h2>
+                        <form action="#">
+                            <div class="form-group">
+                                <label for="patientNamePrescription">Patient Name:</label>
+                                <input type="text" id="patientNamePrescription" name="patientNamePrescription" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="medication">Medication:</label>
+                                <textarea id="medication" name="medication" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="instructions">Instructions:</label>
+                                <textarea id="instructions" name="instructions" required></textarea>
+                            </div>
+                            <button type="submit">Generate Prescription</button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+    </div>    
+
+        <div class=" footer">
+
+
+
+
+            <footer class="footer-section skils">
+                <div class="container">
+                    
+                    <div class="footer-content pt-5 pb-5">
+                        <div class="row">
+                            <div class="col-xl-4 col-lg-4 mb-50">
+                                <div class="footer-widget">
+                                    <div class="footer-logo">
+                                    </div>
+                                    
+                                    <div class="footer-social-icon">
+                                        <span>Follow us</span>
+                                        <a href="#"><i class="fab fa-facebook-f facebook-bg"></i></a>
+                                        <a href="#"><i class="fab fa-twitter twitter-bg"></i></a>
+                                        <a href="#"><i class="fab fa-google-plus-g google-bg"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-4 col-lg-4 col-md-6 mb-30">
+                                <div class="footer-widget">
+                                    <div class="footer-widget-heading">
+                                        <h3>Useful Links</h3>
+                                    </div>
+                                    <ul>
+                                        <li><a href="#">Home</a></li>
+                                        <li><a href="#">about</a></li>
+                                        <li><a href="#">services</a></li>
+                                        <li><a href="#">portfolio</a></li>
+                                        <li><a href="#">Contact</a></li>
+                                        <li><a href="#">About us</a></li>
+                                        <li><a href="#">Our Services</a></li>
+                                        <li><a href="#">Expert Team</a></li>
+                                        <li><a href="#">Contact us</a></li>
+                                        <li><a href="#">Latest News</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-xl-4 col-lg-4 col-md-6 mb-50">
+                                <div class="footer-widget">
+                                    <div class="footer-widget-heading">
+                                        <h3>Subscribe</h3>
+                                    </div>
+                                    <div class="footer-text mb-25">
+                                        <p>Don’t miss to subscribe to our new feeds, kindly fill the form below.</p>
+                                    </div>
+                                    <div class="subscribe-form">
+                                        <form action="#">
+                                            <!-- <input type="text" placeholder="Email Address"> -->
+                                            <button><i class="fab fa-telegram-plane"></i></button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="copyright-area">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-xl-6 col-lg-6 text-center text-lg-left">
+                                <div class="copyright-text">
+                                    <p>Copyright &copy; 2024, All Right Reserved </a></p>
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 d-none d-lg-block text-right">
+                                <div class="footer-menu">
+                                    <ul>
+                                        <li><a href="#">Home</a></li>
+                                        <li><a href="#">Terms</a></li>
+                                        <li><a href="#">Privacy</a></li>
+                                        <li><a href="#">Policy</a></li>
+                                        <li><a href="#">Contact</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+            
+        </div>
     </div>
-    <div id="content">
-
-        <div id="userInfo" style="display: block;">
-            <p><strong>Username:</strong>
-                <%= user.username %>
-            </p>
-            <p><strong>Patient ID:</strong>
-                <%= user.patientId %>
-            </p>
-            <p><strong>Email:</strong>
-                <%= user.email %>
-            </p>
-            <p><strong>Full Name:</strong>
-                <%= user.fullName %>
-            </p>
-            <p><strong>Phone Number:</strong>
-                <%= user.phone %>
-            </p>
-            <p><strong>Date of Birth:</strong>
-                <%= user.dob.toLocaleDateString('en-GB') %>
-            </p>
-            <p><strong>Gender:</strong>
-                <%= user.gender %>
-            </p>
-        </div>
-
-        <div id="bookAppointment" style="display: none;">
-            <h2>Book Appointment</h2>
-            <form action="/bookAppointment" method="POST">
-                <h2>Appointment Form</h2>
-
-                <div class="form-group">
-                    <label for="patientName">Patient Name:</label>
-                    <input type="text" id="patientName" name="patientName" value="<%= user.fullName %>"
-                        readonly>
-                </div>
-
-                <div class="form-group">
-                    <label for="doctor">Select Doctor:</label>
-                    <select id="doctor" name="doctor" required>
-                        <option value="pranav">pranav</option>
-                        <option value="Vaishnavi">Vaishnavi</option>
-                        <option value="Onkar">Onkar</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="dateTime">Select Date and Time:</label>
-                    <input type="datetime-local" id="dateTime" name="dateTime" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="reason">Reason for Appointment:</label>
-                    <textarea id="reason" name="reason" rows="4" required></textarea>
-                </div>
-                <div class="form-group">
-                    <!-- <label for="reason">Reason for Appointment:</label> -->
-                    <input type="text" id="patientId" name="patientId" value="<%= user.patientId %>"
-                        readonly>
-                </div>
-
-                <button type="submit">Submit Appointment</button>
-            </form>
-        </div>
-
-        <div id="appointmentHistory" style="display: none;">
-            <h2>Appointment History</h2>
-            <% if (appointments && appointments.length> 0) { %>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Doctor</th>
-                        <th>Date and Time</th>
-                        <th>Reason</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <% appointments.forEach(appointment=> { %>
-                    <tr>
-                        <td><%= appointment.doctor %></td>
-                        <td><%= appointment.dateTime.toLocaleString() %></td>
-                        <td><%= appointment.reason %></td>
-                        <td><%= appointment.status %></td>
-                    </tr>
-                    <% }); %>
-                </tbody>
-            </table>
-            <% } else { %>
-            <p>No appointment history available.</p>
-            <% } %>
-        </div>
-
-        <div id="reports" style="display: none;">
-            <h2>Reports</h2>
-            <% if (reports && reports.length > 0) { %>
-              <table>
-                <thead>
-                  <tr>
-                    <th>Diagnosis</th>
-                    <th>Treatment</th>
-                    <th>Prescriptions</th>
-                    <th>Notes</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <% reports.forEach(reportArray => { %>
-                    <% reportArray.forEach(report => { %>
-                      <tr>
-                        <td><%= report.diagnosis %></td>
-                        <td><%= report.treatment %></td>
-                        <td><%= report.prescriptions %></td>
-                        <td><%= report.notes %></td>
-                      </tr>
-                    <% }); %>
-                  <% }); %>
-                </tbody>
-              </table>
-            <% } else { %>
-              <p>No reports available.</p>
-            <% } %>
-          </div>
-          
-
-
-        
-        </div>
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        const toggleSection = (option) => {
-            const sections = document.querySelectorAll('#content > div');
-            sections.forEach(section => {
-                if (section.id === option) {
-                    section.style.display = 'block';
-                } else {
-                    section.style.display = 'none';
+
+
+const body = document.querySelector("body"),
+      nav = document.querySelector("nav"),
+      modeToggle = document.querySelector(".dark-light"),
+      searchToggle = document.querySelector(".searchToggle"),
+      sidebarOpen = document.querySelector(".sidebarOpen"),
+      siderbarClose = document.querySelector(".siderbarClose");
+      let getMode = localStorage.getItem("mode");
+          if(getMode && getMode === "dark-mode"){
+            body.classList.add("dark");
+          }
+// js code to toggle dark and light mode
+      modeToggle.addEventListener("click" , () =>{
+        modeToggle.classList.toggle("active");
+        body.classList.toggle("dark");
+        // js code to keep user selected mode even page refresh or file reopen
+        if(!body.classList.contains("dark")){
+            localStorage.setItem("mode" , "light-mode");
+        }else{
+            localStorage.setItem("mode" , "dark-mode");
+        }
+      });
+// js code to toggle search box
+        searchToggle.addEventListener("click" , () =>{
+        searchToggle.classList.toggle("active");
+      });
+ 
+      
+//   js code to toggle sidebar
+sidebarOpen.addEventListener("click" , () =>{
+    nav.classList.add("active");
+});
+body.addEventListener("click" , e =>{
+    let clickedElm = e.target;
+    if(!clickedElm.classList.contains("sidebarOpen") && !clickedElm.classList.contains("menu")){
+        nav.classList.remove("active");
+    }
+});
+        // -----------------------------------------------------------------------------------------
+        document.addEventListener('DOMContentLoaded', function () {
+            // Function to toggle the visibility of dashboard sections
+            function toggleDashboardSection(option) {
+                var userInfo = document.getElementById('userInfo');
+                var bookAppointment = document.getElementById('bookAppointment');
+                var appointmentHistory = document.getElementById('appointmentHistory');
+                var prescription = document.getElementById('prescription');
+
+                // Hide all sections
+                userInfo.style.display = 'none';
+                bookAppointment.style.display = 'none';
+                appointmentHistory.style.display = 'none';
+                prescription.style.display = 'none';
+
+                // Show the selected section
+                if (option === 'dashboard') {
+                    userInfo.style.display = 'block';
+                } else if (option === 'bookAppointment') {
+                    bookAppointment.style.display = 'block';
+                } else if (option === 'appointmentHistory') {
+                    appointmentHistory.style.display = 'block';
+                } else if (option === 'prescription') {
+                    prescription.style.display = 'block';
                 }
+            }
+
+            // Add event listeners to dashboard links for toggling sections
+            document.querySelectorAll('.sidebar-link').forEach(function (link) {
+                link.addEventListener('click', function (event) {
+                    event.preventDefault(); // Prevent default link behavior
+                    var option = event.target.getAttribute('data-option');
+                    toggleDashboardSection(option);
+                });
             });
-        };
+        });
+
+
     </script>
+
 </body>
 
 </html>

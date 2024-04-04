@@ -4,8 +4,54 @@
 body {
     font-family: Arial, sans-serif;
     margin: 0;
-    padding: 0;
-    background-color: #f2f2f2;
+    /* padding: 0; */
+
+
+    /* background-image: url(./src/Doctor-rafiki.svg); */
+
+
+    background-color: color-mix(in srgb, #00ffff 10%, rgba(247, 242, 242, 0.336));;
+    box-shadow: 1px 1px 10px 0 rgba(0, 183, 255, 0.05);
+
+}
+
+#dashbord {
+    margin: 50px;
+}
+
+#content {
+    padding-top: 50px;
+    padding-bottom: 200px;
+    margin-right: 50px;
+    background-image: url(./src/Doctor-rafiki.svg);
+    background-size: cover;
+
+    /* background-position: center */
+    margin-left: 350px;
+    padding-bottom: 300px;
+}
+
+#searchInput {
+    margin-bottom: 20px;
+}
+
+.showButton {
+    margin-top: 50px;
+}
+
+h1 {
+    /* color: #000000; */
+    display: inline-block;
+    font-size: 24px;
+    font-weight: bold;
+    background: linear-gradient(to right, #c41313, #b87029, #c9c92e, #00ff00, #0000ff, #8b00ff, #ff0000);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: rainbow 5s infinite linear;
+}
+
+h3 {
+    margin-bottom: 200px;
 }
 
 #sidebar {
@@ -16,6 +62,11 @@ body {
     height: 100%;
     background-color: #333;
     padding-top: 50px;
+
+}
+
+#appointmentHistory {
+    margin-bottom: 270px;
 }
 
 #sidebar ul {
@@ -40,19 +91,17 @@ body {
     border-radius: 15px;
 }
 
-#content {
-    margin-left: 250px;
-    padding: 20px;
-}
+#content {}
 
 /* Responsive Styles */
 @media only screen and (max-width: 768px) {
     #sidebar {
         width: 150px;
     }
-    
+
     #content {
         margin-left: 150px;
+        /* margin-bottom: 200px; */
     }
 }
 
@@ -62,7 +111,8 @@ table {
     border-collapse: collapse;
 }
 
-th, td {
+th,
+td {
     padding: 10px;
     text-align: left;
 }
@@ -108,11 +158,11 @@ select {
     #sidebar {
         left: -150px;
     }
-    
+
     #content {
-        margin-left: 0;
+        margin-left: 0px;
     }
-    
+
     #menu-toggle {
         display: block;
         position: fixed;
@@ -124,4 +174,254 @@ select {
         border: none;
         cursor: pointer;
     }
+}
+
+/* --------------------------------sidebar---------------- */
+
+body {
+    margin: 0;
+    padding: 0;
+
+    /* color: #cdcdcd; */
+    font-family: "Avenir Next", "Avenir", sans-serif;
+}
+
+#menuToggle {
+    display: block;
+    position: relative;
+    top: 50px;
+    left: 50px;
+
+    z-index: 1;
+
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+#menuToggle a {
+    text-decoration: none;
+    color: #232323;
+
+    transition: color 0.3s ease;
+}
+
+#menuToggle a:hover {
+    color: rgb(134, 194, 159);
+}
+
+
+#menuToggle input {
+    display: block;
+    width: 40px;
+    height: 32px;
+    position: absolute;
+    top: -7px;
+    left: -5px;
+
+    cursor: pointer;
+
+    opacity: 0;
+    z-index: 2;
+
+    -webkit-touch-callout: none;
+}
+
+
+#menuToggle span {
+    display: block;
+    width: 33px;
+    height: 4px;
+    margin-bottom: 5px;
+    position: relative;
+
+    background: #cdcdcd;
+    border-radius: 3px;
+
+    z-index: 1;
+
+    transform-origin: 4px 0px;
+
+    transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1.0),
+        background 0.5s cubic-bezier(0.77, 0.2, 0.05, 1.0),
+        opacity 0.55s ease;
+}
+
+#menuToggle span:first-child {
+    transform-origin: 0% 0%;
+}
+
+#menuToggle span:nth-last-child(2) {
+    transform-origin: 0% 100%;
+}
+
+
+#menuToggle input:checked~span {
+    opacity: 1;
+    transform: rotate(45deg) translate(-2px, -1px);
+    background: #232323;
+}
+
+
+#menuToggle input:checked~span:nth-last-child(3) {
+    opacity: 0;
+    transform: rotate(0deg) scale(0.2, 0.2);
+}
+
+
+#menuToggle input:checked~span:nth-last-child(2) {
+    transform: rotate(-45deg) translate(0, -1px);
+}
+
+
+#menu {
+    position: absolute;
+    width: 200px;
+    height: 100vh;
+    margin: -100px 0 0 -50px;
+    padding: 50px;
+    padding-top: 125px;
+
+    /* background: #ededed; */
+    list-style-type: none;
+    -webkit-font-smoothing: antialiased;
+    /* to stop flickering of text in safari */
+
+    transform-origin: 0% 0%;
+    transform: translate(-100%, 0);
+
+    transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1.0);
+}
+
+#menu li {
+    padding: 10px 0;
+    font-size: 22px;
+}
+
+/*
+* And let's slide it in from the left
+*/
+#menuToggle input:checked~ul {
+    transform: none;
+}
+
+
+/* ---------------- */
+
+
+.headline_text.tricks.active {
+    display: block;
+}
+
+
+
+.headline_text.tricks.active {
+    opacity: 1;
+    font-size: 96px;
+}
+
+.headline_text.tricks {
+    display: none;
+}
+
+.headline_text {
+    font-size: 100px;
+}
+
+
+h1 {
+    margin: .67em 0;
+    font-size: 2em;
+}
+
+
+::selection {
+    background: #F7E8E5;
+}
+
+/*------------------------------------------------ g-enerate report--------------------------------------------------------------------------------- */
+
+
+body,
+h3,
+table {
+    margin: 0;
+    padding: 0;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+tr:nth-of-type(odd) {
+    background: #f5f5f5;
+}
+
+th {
+    background: #007bff;
+    color: white;
+    font-weight: bold;
+    padding: 10px;
+    border: 1px solid #ccc;
+    text-align: left;
+}
+
+td {
+    padding: 10px;
+    border: 1px solid #ccc;
+    text-align: left;
+}
+
+button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+td.pending {
+    color: orange;
+}
+
+td.completed {
+    color: green;
+}
+
+
+
+label {
+    font-weight: bold;
+}
+
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button[type="submit"] {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+#appointmentHistory {
+    margin-top: 20px;
+    /* padding: 200px; */
+    /* margin-bottom: 20px; */
 }

@@ -379,7 +379,54 @@ input[type=checkbox] {
 .grid-item p {
   font-size: 1vw; /* Adjust as needed */
 }
+/* ------------------------------------------------------------------------------------------ */
+/* Global Styles */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif; /* Choose a suitable font family */
+}
 
+header {
+  background-color: #333; /* Adjust header background color */
+  color: #fff; /* Adjust header text color */
+  padding: 20px;
+}
+
+h1 {
+  text-align: center;
+  margin: 0;
+}
+
+main {
+  padding: 20px;
+}
+
+section {
+  display: flex; /* Arrange buttons horizontally */
+  justify-content: space-around; /* Distribute buttons evenly */
+  margin-bottom: 20px;
+}
+
+button {
+  background-color: #4CAF50; /* Adjust button background color */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 5px;
+}
+
+button:hover {
+  background-color: #3e8e41; /* Adjust button hover color */
+}
+
+footer {
+  background-color: #f1f1f1;
+  padding: 10px;
+  text-align: center;
+}
 
 
 
