@@ -15,7 +15,7 @@
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
             text-rendering: optimizeLegibility;
-            background-color: #fefefe;
+            /* background-color: #f30000; */
             margin: 0;
             padding: 0;
             width: 100%;
@@ -24,6 +24,7 @@
         #appointmentHistory {
             padding-bottom: 200px;
             margin-left: 200px;
+            margin-bottom: 200px;
 
         }
 
@@ -132,6 +133,7 @@
         }
         .menu ul{
           list-style: none;
+          width: auto;
           display: flex;
         }
         .menu ul a{
@@ -433,7 +435,8 @@
         }
 
         #bookAppointment form {
-            max-width: 400px;
+            padding-bottom: 80px;
+            max-width: 800px;
             margin: 0 auto;
             text-align: left;
         }
@@ -526,6 +529,7 @@
         }
 
         .prescription-form {
+            margin-bottom: 200px;
             max-width: 500px;
             margin: 0 auto;
             padding: 20px;
@@ -599,13 +603,13 @@
 
         #menuToggle a {
             text-decoration: none;
-            color: #232323;
+            color: #000000;
 
             transition: color 0.3s ease;
         }
 
         #menuToggle a:hover {
-            color: rgb(134, 194, 159);
+            color: rgb(0, 0, 0);
         }
 
 
@@ -674,15 +678,16 @@
 
         #menu {
             position: absolute;
-            width: 200px;
-            height: 100vh;
+            width: 10vw;
+            /* height: 600px; */
             margin: -100px 0 0 -50px;
-            padding: 50px;
-            padding-top: 125px;
+            /* padding: 50px; */
+            padding-left: 100px;
+            padding-top: 100px;
 
             /* background: #ededed; */
             list-style-type: none;
-            -webkit-font-smoothing: antialiased;
+            /* -webkit-font-smoothing: antialiased; */
             /* to stop flickering of text in safari */
 
             transform-origin: 0% 0%;
@@ -700,6 +705,7 @@
   * And let's slide it in from the left
   */
         #menuToggle input:checked~ul {
+            /* padding-top: 20px; */
             transform: none;
         }
 
@@ -707,6 +713,7 @@
         footer {
             background-color: #333;
             color: #fff;
+            margin-top: 200px;
             padding: 50px 0;
         }
 
