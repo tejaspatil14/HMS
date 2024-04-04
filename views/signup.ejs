@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>signup</title>
   <style>
     body {
       font-family: 'Arial', sans-serif;
@@ -22,6 +24,20 @@
       width: 100%;
       height: 100%;
       background-image: url('src/SignUp.png'); /* Adjust the URL as needed */
+      background-size: cover;
+      background-position: center;
+    }
+
+    .SignUpImage {
+      position: absolute;
+      top: 0;
+      left: -80px;
+      z-index: -1;
+      /* Ensure the image is behind other content */
+      width: 100%;
+      height: 100%;
+      background-image: url('src/SignUp.png');
+      /* Adjust the URL as needed */
       background-size: cover;
       background-position: center;
     }
@@ -60,7 +76,8 @@
     }
 
     button {
-      background-color: #4caf50; /* Green */
+      background-color: #4caf50;
+      /* Green */
       color: #fff;
       padding: 10px;
       border: none;
@@ -71,7 +88,8 @@
     }
 
     button:hover {
-      background-color: #45a049; /* Darker green */
+      background-color: #45a049;
+      /* Darker green */
     }
 
     .login-link {
@@ -87,9 +105,25 @@
     .login-link a:hover {
       text-decoration: underline;
     }
+
+    #gender option[value="select"] {
+      color: #999;
+    }
+
+    #gender option[value="select"][disabled] {
+      color: #999;
+      font-style: italic;
+    }
+
+    #gender {
+      font-style: italic;
+    }
+
+    
   </style>
   <title>Hospital Signup</title>
 </head>
+
 <body>
   <div class="SignUpImage">
 
@@ -100,7 +134,7 @@
     <h2>Welcome to UnityMed Hospital</h2>
     <form action="/signup" method="post">
       <label for="username">Username:</label>
-      <input type="text" id="username" name="username" required>  
+      <input type="text" id="username" name="username" required>
 
       <label for="email">Email:</label>
       <input type="email" id="email" name="email" required>
@@ -119,17 +153,20 @@
 
       <label for="gender">Gender:</label>
       <select id="gender" name="gender" required>
+        
         <option value="Male">Male</option>
         <option value="Female">Female</option>
-        <option value="Third Gender">Third Gender</option>
-        </select>
+        <option value="Other">Other</option>
+      </select>
+
 
       <button type="submit">Sign Up</button>
     </form>
 
     <div class="login-link">
-      Already have an account? <a href="/login">Login here</a>
+      Already have an account? <a href="/patientLogin">Login here</a>
     </div>
   </div>
 </body>
+
 </html>

@@ -9,6 +9,10 @@
     <title>Doctor Dashboard</title>
     <link rel="stylesheet" href="doctorDashboard.css">
 
+
+
+
+
     <script>
         const toggleSection = (option) => {
             const sections = document.querySelectorAll('#content > div');
@@ -21,25 +25,25 @@
             });
         };
 
-            // Function to filter patients based on search input
-            function searchPatients() {
-                const input = document.getElementById('searchInput').value.toUpperCase();
-                const table = document.getElementById('patientTable');
-                const rows = table.getElementsByTagName('tr');
-    
-                for (let i = 0; i < rows.length; i++) {
-                    const nameColumn = rows[i].getElementsByTagName('td')[0];
-                    if (nameColumn) {
-                        const nameText = nameColumn.textContent || nameColumn.innerText;
-                        if (nameText.toUpperCase().indexOf(input) > -1) {
-                            rows[i].style.display = '';
-                        } else {
-                            rows[i].style.display = 'none';
-                        }
+        // Function to filter patients based on search input
+        function searchPatients() {
+            const input = document.getElementById('searchInput').value.toUpperCase();
+            const table = document.getElementById('patientTable');
+            const rows = table.getElementsByTagName('tr');
+
+            for (let i = 0; i < rows.length; i++) {
+                const nameColumn = rows[i].getElementsByTagName('td')[0];
+                if (nameColumn) {
+                    const nameText = nameColumn.textContent || nameColumn.innerText;
+                    if (nameText.toUpperCase().indexOf(input) > -1) {
+                        rows[i].style.display = '';
+                    } else {
+                        rows[i].style.display = 'none';
                     }
                 }
             }
-        
+        }
+
 
     </script>
 
@@ -47,17 +51,53 @@
 </head>
 
 <body>
-    <div id="sidebar">
-        <ul>
-            <li><a href="#" onclick="toggleSection('dashboard')">Dashboard</a></li>
-            <li><a href="#" onclick="toggleSection('appointmentHistory')">Appointment History</a></li>
-            <li><a href="#" onclick="toggleSection('report')">Generate Report</a></li>
-            <li><a href="#" onclick="toggleSection('patientHistory')">Pateints History</a></li>
-            <li><a href="/logout">Logout</a></li>
-        </ul>
-    </div>
+
+   
+    <nav role="navigation">
+        <div id="menuToggle">
+
+            <input type="checkbox" />
+
+            <span></span>
+            <span></span>
+            <span></span>
+
+            <ul id="menu">
+                <li>
+                    <a href="#" class="sidebar-link" onclick="toggleSection('dashboard')">Dashboard</a>
+                </li>
+                <li>
+                    <a href="#" class="sidebar-link" onclick="toggleSection('appointmentHistory')">Appointment
+                        History</a>
+                </li>
+                <li>
+                    <a href="#" class="sidebar-link" onclick="toggleSection('report')">Generate Report</a>
+                </li>
+                <li>
+                    <a href="#" class="sidebar-link" onclick="toggleSection('patientHistory')">Patients History</a>
+                </li>
+                <li>
+                    <a href="/logout">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+   
     <div id="content">
-        <h2>Welcome to Doctor Dashboard, Dr. <%= user.fullName %>!</h2>
+
+
+        <h1 data-w-id="cbce296a-7a56-bafb-c5ec-728f94254028"
+            style="opacity: 1; will-change: transform, opacity; transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;"
+            class="headline_text tricks active"><span class="tricksword"><span class="letter"
+                    style="opacity: 1; transform: translateY(0px) translateZ(0px);">Welcome </span></span> <span
+                    style="opacity: 1; transform: translateY(0px) translateZ(0px);">to </span><span class="letter"
+                    style="opacity: 1; transform: translateY(0px) translateZ(0px);">UnityMed </span><span class="letter"
+                    style="opacity: 1; transform: translateY(0px) translateZ(0px);">Hospital </span><span class="letter"
+                    style="opacity: 1; transform: translateY(0px) translateZ(0px);"></span><span class="letter"
+                    style="opacity: 1; transform: translateY(0px) translateZ(0px);"></span></span> <span
+                    style="opacity: 1; transform: translateY(0px) translateZ(0px);"></span></span></h1>
+
+        <h1>  Dr. <%= user.fullName %>!</h1>
 
         <div id="dashboard" style="display: block;">
             <h3>Department: <%= user.department %>
@@ -73,136 +113,166 @@
         <div id="appointmentHistory" style="display: none;">
             <h3>Appointments</h3>
 
-            <% if (appointments && appointments.length > 0) { %>
-            <table border="1">
-                <thead>
-                    <tr>
-                        <th>Patient Name</th>
-                        <th>Patient ID</th>
-                        
-                        <th>Date and Time</th>
-                        <th>Reason</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <% appointments.forEach(appointment => { %>
-                    <tr>
-                        <td><%= appointment.patientName %></td>
-                        <td><%= appointment.patientId %></td>
-                        <td><%= appointment.dateTime %></td>
-                        <td><%= appointment.reason %></td>
-                        <td class="<%= appointment.status %>"><%= appointment.status %></td>
-                        <td>
-                            <form action="/updateAppointmentStatus" method="POST">
-                                <input type="hidden" name="appointmentId" value="<%= appointment._id %>">
-                                <select name="newStatus">
-                                    <option value="confirmed">Confirmed</option>
-                                    <option value="cancelled">Cancelled</option>
-                                    <option value="completed">Completed</option>
-                                </select>
-                                <button type="submit">Update Status</button>
-                            </form>
-                        </td>
-                    </tr>
-                    <% }); %>
-                </tbody>
-            </table>
-            <% } else { %>
-            <p>No appointments available.</p>
-            <% } %>
+            <% if (appointments && appointments.length> 0) { %>
+                <table border="1">
+                    <thead>
+                        <tr>
+                            <th>Patient Name</th>
+                            <th>Patient ID</th>
+
+                            <th>Date and Time</th>
+                            <th>Reason</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% appointments.forEach(appointment=> { %>
+                            <tr>
+                                <td>
+                                    <%= appointment.patientName %>
+                                </td>
+                                <td>
+                                    <%= appointment.patientId %>
+                                </td>
+                                <td>
+                                    <%= appointment.dateTime %>
+                                </td>
+                                <td>
+                                    <%= appointment.reason %>
+                                </td>
+                                <td class="<%= appointment.status %>">
+                                    <%= appointment.status %>
+                                </td>
+                                <td>
+                                    <form action="/updateAppointmentStatus" method="POST">
+                                        <input type="hidden" name="appointmentId" value="<%= appointment._id %>">
+                                        <select name="newStatus">
+                                            <option value="confirmed">Confirmed</option>
+                                            <option value="cancelled">Cancelled</option>
+                                            <option value="completed">Completed</option>
+                                        </select>
+                                        <button type="submit">Update Status</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            <% }); %>
+                    </tbody>
+                </table>
+                <% } else { %>
+                    <p>No appointments available.</p>
+                    <% } %>
         </div>
 
         <div id="report" style="display: none;">
             <h3>Generate Report</h3>
-            <% if (appointments && appointments.length > 0) { %>
-            <table border="1">
-                <thead>
-                    <tr>
-                        <th>Patient Name</th>
-                        <th>Patient ID</th>
-                        <th>Date and Time</th>
-                        <th>Reason</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <% appointments.forEach(appointment => { %>
-                    <tr>
-                        <td><%= appointment.patientName %></td>
-                        <td><%= appointment.patientId %></td>
-                        <td><%= appointment.dateTime %></td>
-                        <td><%= appointment.reason %></td>
-                        <td class="<%= appointment.status %>"><%= appointment.status %></td>
-                        <td>
-                            <button onclick="toggleSection('reportForm-<%= appointment._id %>')">Generate Report</button>
-                        </td>
-                    </tr>
-                    <% }); %>
-                </tbody>
-            </table>
-            <% } else { %>
-            <p>No appointments available.</p>
-            <% } %>
+            <% if (appointments && appointments.length> 0) { %>
+                <table border="1">
+                    <thead>
+                        <tr>
+                            <th>Patient Name</th>
+                            <th>Patient ID</th>
+                            <th>Date and Time</th>
+                            <th>Reason</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% appointments.forEach(appointment=> { %>
+                            <tr>
+                                <td>
+                                    <%= appointment.patientName %>
+                                </td>
+                                <td>
+                                    <%= appointment.patientId %>
+                                </td>
+                                <td>
+                                    <%= appointment.dateTime %>
+                                </td>
+                                <td>
+                                    <%= appointment.reason %>
+                                </td>
+                                <td class="<%= appointment.status %>">
+                                    <%= appointment.status %>
+                                </td>
+                                <td>
+                                    <button onclick="toggleSection('reportForm-<%= appointment._id %>')">Generate
+                                        Report</button>
+                                </td>
+                            </tr>
+                            <% }); %>
+                    </tbody>
+                </table>
+                <% } else { %>
+                    <p>No appointments available.</p>
+                    <% } %>
         </div>
 
-        <% appointments.forEach(appointment => { %>
-        <div id="reportForm-<%= appointment._id %>" style="display: none;">
-            <h3>Generate Report</h3>
-            <form action="/appointments/<%= appointment._id %>/report" method="POST">
-                <label for="diagnosis">Diagnostic Information:</label>
-                <textarea id="diagnosis" name="diagnosis" rows="4" required></textarea>
+        <% appointments.forEach(appointment=> { %>
+            <div id="reportForm-<%= appointment._id %>" style="display: none;">
+                <h3>Generate Report</h3>
+                <form action="/appointments/<%= appointment._id %>/report" method="POST">
+                    <label for="diagnosis">Diagnostic Information:</label>
+                    <textarea id="diagnosis" name="diagnosis" rows="4" required></textarea>
 
-                <label for="treatment">Treatment Provided:</label>
-                <textarea id="treatment" name="treatment" rows="4" required></textarea>
+                    <label for="treatment">Treatment Provided:</label>
+                    <textarea id="treatment" name="treatment" rows="4" required></textarea>
 
-                <label for="prescriptions">Prescriptions:</label>
-                <textarea id="prescriptions" name="prescriptions" rows="4"></textarea>
+                    <label for="prescriptions">Prescriptions:</label>
+                    <textarea id="prescriptions" name="prescriptions" rows="4"></textarea>
 
-                <label for="notes">Additional Notes:</label>
-                <textarea id="notes" name="notes" rows="4"></textarea>
+                    <label for="notes">Additional Notes:</label>
+                    <textarea id="notes" name="notes" rows="4"></textarea>
 
-                <button type="submit">Submit Report</button>
-            </form>
-        </div>
-        <% }); %>
+                    <button type="submit">Submit Report</button>
+                </form>
+            </div>
+            <% }); %>
 
 
-        <div id="patientHistory" style="display: block;">
-            <h2>Patient History</h2>
+                <div id="patientHistory" style="display: block;">
+                    <h2>Patient History</h2>
 
-            <!-- Search input field -->
-            <input type="text" id="searchInput" oninput="searchPatients()" placeholder="Search by patient name">
+                    <!-- Search input field -->
+                   <div>
+                     Search :  
+                       <input  type="text" id="searchInput" oninput="searchPatients()" placeholder="Search by patient name">
+                   </div>
 
-            <!-- Table to display patient history -->
-            <table id="patientTable" border="1">
-                <thead>
-                    <tr>
-                        <th>Patient Name</th>
-                        <th>Patient ID</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Table rows for patient data -->
-                    <% users.forEach(user => { %>
-                    <tr>
-                        <td><%= user.fullName %></td>
-                        <td><%= user.patientId %></td>
-                    </tr>
-                    <% }); %>
-                </tbody>
-            </table>
+                    <!-- Table to display patient history -->
+                    <table id="patientTable" border="1">
+                        <thead>
+                            <tr>
+                                <th>Patient Name</th>
+                                <th>Patient ID</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Table rows for patient data -->
+                            <% users.forEach(user=> { %>
+                                <tr>
+                                    <td>
+                                        <%= user.fullName %>
+                                    </td>
+                                    <td>
+                                        <%= user.patientId %>
+                                    </td>
+                                </tr>
+                                <% }); %>
+                        </tbody>
+                    </table>
 
-            <!-- Button to show report history -->
-            <button onclick="toggleReportHistory()">Show Report History</button>
-        </div>
+                    <!-- Button to show report history -->
+                    <div class="showButton">
+                        
+                        <button onclick="toggleReportHistory()">Show Report History</button>
+                    </div>
+                </div>
 
-        
-        
+
+
 
 </body>
 
 </html>
-    

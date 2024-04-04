@@ -1,6 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700&display=swap');
+ @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700&display=swap');
 
-* {
+body {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -18,9 +18,13 @@
     margin-left: auto;
     margin-right: auto;
     width: 100%;
+<<<<<<< HEAD
     margin-top: 50px;
+=======
+    margin-top: 10px;
+>>>>>>> b362af0a69eaf116365266bb05d2ea3d503cd5b5
     background-color: #017143;
-    border-radius: 20px;
+    border-radius: 0px;
   }
   a {
     color: inherit; /* Inherit color from parent element */
@@ -102,7 +106,7 @@
     position: sticky;
     align-items: center;
     justify-content: space-between;
-    padding: 20px;
+    padding: 5px;
     background: transparent;
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(8px);
@@ -394,6 +398,7 @@ input[type=checkbox] {
   align-items: center;
   justify-content: center;
 }
+<<<<<<< HEAD
 
 .footer-social a {
   margin-right: 10px; /* Adjust spacing between icons */
@@ -496,6 +501,107 @@ input[type=checkbox] {
   text-decoration: underline;
  
 }
+=======
+>>>>>>> b362af0a69eaf116365266bb05d2ea3d503cd5b5
 
+.footer-social a {
+  margin-right: 10px; /* Adjust spacing between icons */
+}
 
+.footer-social img {
+  width: 30px; /* Set the desired icon size */
+  height: 30px;
+  border-radius: 50%; /* Make the icons circular */
+  transition: transform 0.2s ease; /* Add a smooth hover effect */
+}
 
+.footer-social img:hover {
+  transform: scale(1.2); /* Enlarge the icon on hover */
+}
+/* General styles for footer */
+.footer-bottom {
+  
+  padding: 20px 0;
+  text-align: center;
+  justify-content: center;
+}
+
+/* Wrapper styles */
+.wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Inner container styles */
+.footer-bottom-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Footer left section */
+.footer-bottom-left {
+  flex: 1;
+}
+
+/* Footer social links */
+.footer-social {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.footer-social a img {
+  width: 30px; /* Adjust the size as needed */
+  height: auto;
+}
+
+/* Footer center section */
+.footer-link-outer {
+  flex: 1;
+  text-align: left;
+}
+
+.footer-link ul.menu {
+  list-style-type: none;
+  padding: 0;
+}
+
+.footer-link ul.menu li.menu-item {
+  margin-bottom: 10px;
+}
+
+.footer-link ul.menu li.menu-item a {
+  color: #333;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footer-link ul.menu li.menu-item a:hover {
+  color: #007bff;
+}
+
+/* Footer right section */
+.footer-bottom p {
+  margin: 0;
+  font-size: 14px;
+  /* color: #333; */
+  text-align: center;
+  transition: color 0.3s ease;
+
+  
+  justify-content: center;
+}
+
+.footer-bottom p a {
+  color: #007bff;
+  text-decoration: none;
+
+}
+
+.footer-bottom p a:hover {
+  text-decoration: underline;
+ 
+}
