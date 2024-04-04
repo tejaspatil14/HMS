@@ -17,7 +17,7 @@
     display: block;
     margin-left: auto;
     margin-right: auto;
-    width: 60%;
+    width: 100%;
     margin-top: 50px;
     background-color: #017143;
     border-radius: 20px;
@@ -380,8 +380,122 @@ input[type=checkbox] {
 .grid-item p {
   font-size: 1vw; /* Adjust as needed */
 }
+.footer .footer-bottom {
+  margin-top: 50px;
+  padding: 35px 0;
+    padding-left: 0px;
+  box-shadow: 0px -1px 26px #00000029;
+}
 
 
+/* Style for the social media footer */
+.footer-social {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.footer-social a {
+  margin-right: 10px; /* Adjust spacing between icons */
+}
+
+.footer-social img {
+  width: 30px; /* Set the desired icon size */
+  height: 30px;
+  border-radius: 50%; /* Make the icons circular */
+  transition: transform 0.2s ease; /* Add a smooth hover effect */
+}
+
+.footer-social img:hover {
+  transform: scale(1.2); /* Enlarge the icon on hover */
+}
+/* General styles for footer */
+.footer-bottom {
+  
+  padding: 20px 0;
+  text-align: center;
+  justify-content: center;
+}
+
+/* Wrapper styles */
+.wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Inner container styles */
+.footer-bottom-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Footer left section */
+.footer-bottom-left {
+  flex: 1;
+}
+
+/* Footer social links */
+.footer-social {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.footer-social a img {
+  width: 30px; /* Adjust the size as needed */
+  height: auto;
+}
+
+/* Footer center section */
+.footer-link-outer {
+  flex: 1;
+  text-align: left;
+}
+
+.footer-link ul.menu {
+  list-style-type: none;
+  padding: 0;
+}
+
+.footer-link ul.menu li.menu-item {
+  margin-bottom: 10px;
+}
+
+.footer-link ul.menu li.menu-item a {
+  color: #333;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footer-link ul.menu li.menu-item a:hover {
+  color: #007bff;
+}
+
+/* Footer right section */
+.footer-bottom p {
+  margin: 0;
+  font-size: 14px;
+  /* color: #333; */
+  text-align: center;
+  transition: color 0.3s ease;
+
+  
+  justify-content: center;
+}
+
+.footer-bottom p a {
+  color: #007bff;
+  text-decoration: none;
+
+}
+
+.footer-bottom p a:hover {
+  text-decoration: underline;
+ 
+}
 
 
 

@@ -8,19 +8,33 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-color: #d3eaf2;
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
-      margin: 0;
+      height: 105vh;
+      margin: 30px;
+    }
+
+    .LoginImage {
+      position: absolute;
+      top: 0;
+      left: -80px;
+      z-index: -1; /* Ensure the image is behind other content */
+      width: 100%;
+      height: 100%;
+      background-image: url('src/Login.png'); /* Adjust the URL as needed */
+      background-size: cover;
+      background-position: center;
     }
 
     #loginContainer {
-      background-color: #fff;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      /* background-color: #decccc; */
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 1);
+      position: relative; 
+      z-index: 1; 
+      backdrop-filter: blur(15px);
     }
 
     label {
@@ -37,7 +51,7 @@
     }
 
     button {
-      background-color: #4caf50;
+      /* background-color: #4caf50; */
       color: #fff;
       padding: 10px;
       border: none;
@@ -49,7 +63,7 @@
       background-color: #45a049;
     }
 
-    .signup-link{
+    .signup-link {
       text-align: center;
       margin: 20px;
     }
@@ -62,31 +76,63 @@
     .signup-link a:hover {
       text-decoration: underline;
     }
-    
   </style>
 </head>
 
 <body>
+
+ 
+  <div class="LoginImage"></div>
   <div id="loginContainer">
     <h2>Login Here</h2>
     <form id="loginForm" action="/patientLogin" method="POST">
-      <% if (messages.error && messages.error.length > 0) { %>
-      <div style="color: red;"><%= messages.error[0] %></div>
-      <% } %>
-      <label for="username">Username:</label>
-      <input type="text" id="username" name="username" required>
+      <% if (messages.error && messages.error.length> 0) { %>
+        <div style="color: red;">
+          <%= messages.error[0] %>
+        </div>
+        <% } %>
+          <label for="username">Username:</label>
+          <input type="text" id="username" name="username" required>
 
-      <label for="password">Password:</label>
-      <input type="password" id="password" name="password" required>
+          <label for="password">Password:</label>
+          <input type="password" id="password" name="password" required>
 
-      <div class="signup-link">
-        Don't have an account? <a href="/signup">SignIn Here</a>
-      </div>
+          <div class="signup-link">
+            Don't have an account? <a href="/signup">Sign In Here</a>
+          </div>
 
-      <button id="submitForm" type="submit">Login</button>
+          <button id="submitForm" type="submit">Login</button>
     </form>
 
     <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const loginForm = document.getElementById('loginForm');
+
+        document.getElementById('submitForm').addEventListener('click', function () {
+          var username = document.getElementById('username').value;
+          var password = document.getElementById('password').value;
+
+          fetch('/login', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ username: username, password: password })
+          })
+            .then(response => response.json())
+            .then(data => {
+              console.log(data);
+              if (data.success) {
+                window.location.href = '/patientDashboard';
+              } else {
+                alert('Login failed. ' + data.message);
+              }
+            })
+            .catch(error => {
+              console.error('Error:', error);
+            });
+        });
+      });
     </script>
   </div>
 </body>

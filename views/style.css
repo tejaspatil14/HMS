@@ -239,7 +239,7 @@ input[type=checkbox] {
   .content
 {
   position: relative;
-  /* width: 100%; */
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -320,9 +320,9 @@ input[type=checkbox] {
 
 .skils
 {
-  /* margin-left: 200px;
-  margin-right: 200px; */
-  /* padding-left: 50px; */
+  margin-left: 200px;
+  margin-right: 200px; 
+  padding-left: 50px;
   padding-bottom: 50px;
   margin-bottom: 50px;
   align-items: center;
